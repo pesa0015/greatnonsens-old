@@ -6,7 +6,7 @@
         <h4 class="modal-title">Skapa en story</h4>
       </div>
       <div class="modal-body">
-        <form action="post/new_story" method="post">
+        <form action="post/new_story.php" method="post">
           <div class="row">
             <div class="col-xs-8">
               <div class="form-group">

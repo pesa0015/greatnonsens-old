@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		'theme' => $translate['noty_message']['new_story_created']['theme'],
 		'timeout' => $translate['noty_message']['new_story_created']['timeout']
 		);
-	header('Location: ../write');
+	header('Location: ../write.php');
 }
 
 ?>

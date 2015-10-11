@@ -23,7 +23,7 @@ session_start();
 	<body>
 		<div class="container">
 			<?php require 'post/show_errors.php'; ?>
-			<form action="post/user/new" method="post" id="signup_form" class="form-horizontal login-register-form">
+			<form action="post/user/auth" method="post" id="signup_form" class="form-horizontal login-register-form">
 				<div class="form-group">
 				    <div class="col-lg-4 col-lg-offset-4">
 						<input type="text" name="user" <?=(isset($_SESSION['login']['user'])) ? "value=\"{$_SESSION['login']['user']}\"" : ''; ?> class="form-control" placeholder="Användarnamn">

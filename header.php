@@ -74,54 +74,37 @@ require 'lang/config.php';
 					</ul>
 					<?php if (!isset($_SESSION['user'])): ?>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$translate['Log_in']; ?></a>
-								<ul class="dropdown-menu" role="menu">
-            						<form action="login" method="post" class="form-horizontal">
-            							<div class="form-group">
-									      	<label for="inputEmail" class="col-lg-2 control-label">Email</label>
-									      		<div class="col-lg-10">
-									        		<input type="text" class="form-control" id="inputEmail" placeholder="Email">
-									      		</div>
+							<form action="post/user/auth" method="post" id="login_form" class="navbar-form navbar-left">
+					        	<div class="form-group">
+					          		<input type="text" name="user" class="form-control" placeholder="Användarnamn/email" autofocus>
+					        	</div>
+					        	<div class="form-group">
+					          		<input type="text" name="password" class="form-control" placeholder="Lösenord">
+					        	</div>
+					        	<input type="submit" class="btn btn-default" value="<?=$translate['Log_in']; ?>">
+					      	</form>
+							<li id="hide_register" class="dropdown">
+								<a href="#" id="register" class="dropdown-toggle" data-toggle="dropdown"><?=$translate['Register']; ?></a>
+								<ul id="register_area" class="dropdown-menu" role="menu" style="width: 300px;">
+            						<form action="post/user/new" method="post">
+            							<div class="col-lg-12">
+									        <input type="text" name="user" class="form-control" placeholder="Användarnamn">
 									    </div>
-            							<div class="form-group">
-									      	<label for="inputEmail" class="col-lg-2 control-label">Email</label>
-									      		<div class="col-lg-10">
-									        		<input type="text" class="form-control" id="inputEmail" placeholder="Email">
-									      		</div>
+									    <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px;">
+									        <input type="text" name="email" class="form-control" placeholder="Email">
 									    </div>
-            							<div class="form-group">
-									      	<div class="col-lg-10 col-lg-offset-2">
-									        	<button type="reset" class="btn btn-default">Cancel</button>
-									        	<button type="submit" class="btn btn-primary">Submit</button>
-									      	</div>
+										<div class="col-lg-12" style="margin-bottom: 10px;">
+									        <input type="password" name="password" id="password" class="form-control" placeholder="Lösenord" style="margin-bottom: 5px;">
+									        <p class="text-warning">Minst 5 tecken</p>
 									    </div>
-            						</form>
-            					</ul>
-            				</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$translate['Register']; ?></a>
-								<ul class="dropdown-menu" role="menu">
-            						<form action="register" method="post" class="form-horizontal">
-            							<div class="form-group">
-									      	<label for="inputEmail" class="col-lg-2 control-label">Email</label>
-									      		<div class="col-lg-10">
-									        		<input type="text" class="form-control" id="inputEmail" placeholder="Email">
-									      		</div>
+									    <div id="password_repeat" class="col-lg-12" style="margin-bottom: 10px; display: none;">
+									    	<h5>Repetera lösenord</h5>
+									        <input type="password" name="password_repeat" class="form-control" placeholder="Lösenord">
 									    </div>
-            							<div class="form-group">
-									      	<label for="inputEmail" class="col-lg-2 control-label">Email</label>
-									      		<div class="col-lg-10">
-									        		<input type="text" class="form-control" id="inputEmail" placeholder="Email">
-									      		</div>
+									    <div class="col-lg-12 col-lg-offset-2">
+									        <input type="submit" class="btn btn-primary" value="Registrera">
 									    </div>
-            							<div class="form-group">
-									      	<div class="col-lg-10 col-lg-offset-2">
-									        	<button type="reset" class="btn btn-default">Cancel</button>
-									        	<button type="submit" class="btn btn-primary">Submit</button>
-									      	</div>
-									    </div>
-            						</form>
+									</form>
             					</ul>
             				</li>
 							<li class="dropdown">

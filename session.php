@@ -8,7 +8,7 @@ if (!isset($_COOKIE['guest_id'])) {
         $_SESSION['guest_id'] = $id[0]['id'];
         $_SESSION['lang'] = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
         $_SESSION['theme'] = 'superhero';
-        setcookie('guest_id', $id[0]['id'], time() + (3600 * 5));
+        setcookie('guest_id', $id[0]['id'], strtotime('today 23:59'));
     }
 }
 

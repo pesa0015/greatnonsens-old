@@ -1,3 +1,4 @@
+		</div> <!-- END #WRAPPER -->
 		<script src="vendor/js/jquery-1.11.1.min.js"></script>
 		<script src="vendor/js/bootstrap.min.js"></script>
 		<script src="vendor/js/jquery.noty.packaged.min.js"></script>
@@ -18,14 +19,21 @@
 		if (isset($_SESSION['noty_message'])) { ?>
 		    <script>
 		    	var n = noty({
-			        text        : '<?=$translate['noty_message']['new_story_created']['text']; ?>',
-			        type        : '<?=$translate['noty_message']['new_story_created']['type']; ?>',
-			        dismissQueue: '<?=$translate['noty_message']['new_story_created']['dismissQueue']; ?>',
-			        layout      : '<?=$translate['noty_message']['new_story_created']['layout']; ?>',
-			        theme       : '<?=$translate['noty_message']['new_story_created']['theme']; ?>',
-			        timeout 	: '<?=$translate['noty_message']['new_story_created']['timeout']; ?>'
+			        text        : '<?=$_SESSION['noty_message']['text']; ?>',
+			        type        : '<?=$_SESSION['noty_message']['type']; ?>',
+			        dismissQueue: '<?=$_SESSION['noty_message']['dismissQueue']; ?>',
+			        layout      : '<?=$_SESSION['noty_message']['layout']; ?>',
+			        theme       : '<?=$_SESSION['noty_message']['theme']; ?>',
+			        timeout 	: '<?=$_SESSION['noty_message']['timeout']; ?>'
 			        });
 		    </script>
-		<?php unset($_SESSION['noty_message']); } ?>
+		<?php unset($_SESSION['noty_message']); }
+		if (isset($_SESSION['errors']))
+			unset($_SESSION['errors']);
+		if (isset($_SESSION['login']))
+			unset($_SESSION['login']);
+		if (isset($_SESSION['register']))
+			unset($_SESSION['register']);
+		?>
 	</body>
 </html>

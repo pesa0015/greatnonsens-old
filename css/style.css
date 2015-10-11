@@ -7,14 +7,28 @@
   border-bottom: 1px solid #CCCCCC;
 }
 
+.container {
+  margin-right: auto;
+    margin-left: auto;
+}
+
 #intro {
 	width: 30%;
 	margin: auto;
 	text-align: center;
 }
 
-/*@media only screen and (min-width: 700px) {
-  ul.nav li.dropdown:hover > ul.dropdown-menu {
-    display: block;
+#signup_form {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media only screen and (min-width: 700px) {
+    #intro {
+    width: 100%;
   }
-}*/
+  /*ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+  }*/
+}

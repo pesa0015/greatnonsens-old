@@ -6,20 +6,20 @@
         <h4 class="modal-title">Skapa en story</h4>
       </div>
       <div class="modal-body">
-        <form action="post/new_story.php" method="post">
+        <form action="post/new_story" method="post">
           <div class="row">
             <div class="col-xs-8">
-              <div class="form-group">
-                <label for="name" class="control-label"><h5>Arbetsnamn:</h5></label>
-                <input type="text" name="name" class="form-control" autofocus>
+              <div class="form-group<?=(isset($_SESSION['errors']['story_title'])) ? ' has-error' : ''; ?>">
+                <label for="story_title" class="control-label"><h5>Arbetsnamn<?=(isset($_SESSION['errors']['story_title'])) ? ' saknas' : ''; ?>:</h5></label>
+                <input type="text" name="story_title" class="form-control" autofocus>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-xs-8">
-              <div class="form-group">
-                <h5>Öppningsmening:</h5>
-                <textarea class="form-control" rows="3"></textarea>
+              <div class="form-group<?=(isset($_SESSION['errors']['text'])) ? ' has-error' : ''; ?>">
+                <label for="text" class="control-label"><h5>Öppningsmening<?=(isset($_SESSION['errors']['text'])) ? ' saknas' : ''; ?>:</h5></label>
+                <textarea name="text" class="form-control" rows="3"></textarea>
               </div>
             </div>
           </div>
@@ -27,7 +27,7 @@
             <div class="col-xs-8">
               <div class="form-group">
                 <h5>Max antal författare:</h5>
-                <select class="form-control" id="max_writers">
+                <select name="max_writers" id="max_writers" class="form-control">
                   <option value="10" selected>10</option>
                   <option value="15">15</option>
                   <option value="20">20</option>
@@ -40,10 +40,10 @@
               <div class="form-group">
                 <h5>Flexibel:</h5>
                 <div class="radio">
-                  <label><input type="radio" name="flexible" id="flexible_no" value="option1" checked="">Nej</label>
+                  <label><input type="radio" name="flexible" id="flexible_no" value="0" checked="">Nej</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="flexible" id="flexible_yes" value="option2">Ja</label>
+                  <label><input type="radio" name="flexible" id="flexible_yes" value="1">Ja</label>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="col-xs-8">
               <div class="form-group">
                 <h5>Rundor:</h5>
-                <select class="form-control" id="num_of_rounds">
+                <select name="rounds" id="num_of_rounds" class="form-control">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -70,7 +70,7 @@
           <div id="add_rounds" class="row" style="display: none;">
             <div class="col-xs-8">
               <div class="form-group">
-                <h5>Antal rundor: <input type="text" name="name" class="form-control" style="width: 70px; display: inline; margin-left: 10px;"></h5>
+                <h5>Antal rundor: <input type="text" name="more_rounds" class="form-control" style="width: 70px; display: inline; margin-left: 10px;"></h5>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
             <div class="col-xs-8">
               <div class="form-group">
                 <h5>Längd på storyn:</h5>
-                <select id="select_story_length" class="form-control">
+                <select name="story_length" id="select_story_length" class="form-control">
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -96,7 +96,7 @@
           <div id="add_length" class="row" style="display: none;">
             <div class="col-xs-8">
               <div class="form-group">
-                <h5>Längd: <input type="text" name="name" class="form-control" style="width: 70px; display: inline; margin-left: 10px;"></h5>
+                <h5>Längd: <input type="text" name="longer_story" class="form-control" style="width: 70px; display: inline; margin-left: 10px;"></h5>
               </div>
             </div>
           </div>
@@ -105,23 +105,10 @@
               <div class="form-group">
                 <h5>Nonsensläge:</h5>
                 <div class="radio">
-                  <label><input type="radio" name="nonsensmode" id="optionsRadios2" value="option2" checked="">Ja</label>
+                  <label><input type="radio" name="nonsensmode" id="optionsRadios2" value="1" checked="">Ja</label>
                 </div>
                 <div class="radio">
-                  <label><input type="radio" name="nonsensmode" id="optionsRadios1" value="option1">Nej</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-8">
-              <div class="form-group">
-                <h5>Jag vill vara administratör av storyn:</h5>
-                <div class="radio">
-                  <label><input type="radio" name="admin" id="optionsRadios2" value="option2" checked="">Ja</label>
-                </div>
-                <div class="radio">
-                  <label><input type="radio" name="admin" id="optionsRadios1" value="option1">Nej</label>
+                  <label><input type="radio" name="nonsensmode" id="optionsRadios1" value="0">Nej</label>
                 </div>
               </div>
             </div>

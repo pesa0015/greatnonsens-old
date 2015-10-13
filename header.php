@@ -54,6 +54,7 @@ require 'lang/config.php';
 			<link href="vendor/css/bootstrap.min.superhero.css" rel="stylesheet">
 		<?php endif; ?>
 		<link href="vendor/css/ionicons.min.css" rel="stylesheet"></a>
+		<link href="vendor/css/magister.css" rel="stylesheet" type="text/css">
 		<link href="css/style.css" rel="stylesheet">
 	</head>
 	<body>
@@ -66,7 +67,6 @@ require 'lang/config.php';
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<!--<a class="navbar-brand" href="{{ url('/') }}">Oboy Events</a>-->
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">

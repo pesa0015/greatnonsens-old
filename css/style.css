@@ -1,38 +1,68 @@
-.navbar-default {
-  background-color: transparent;
-  border-bottom: 1px solid rgba(255,255,255,.2);
-}
-
-.navbar-default .navbar-nav > li > a:hover {
-  border-bottom: 1px solid #CCCCCC;
-}
-
-.container {
-  margin-right: auto;
-    margin-left: auto;
-}
-
-#intro {
-	width: 30%;
-	margin: auto;
+header {
+	color: grey;
+	width: 100%;
+	height: 50px;
 	text-align: center;
 }
-
-#signup_form {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
+form {
+	width: 500px;
+	margin: auto;
 }
-
 input {
-  background-color: transparent;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid silver;
+	margin-right: 10px;
+}
+.radio label, .checkbox label {
+	float: left;
+}
+#news_icon {
+	/*font-size: 2em;*/
+}
+#newsitem_read {
+	margin: 15px;
+	cursor: pointer;
+}
+#news {
+	padding: 0px;
+}
+.unread-true {
+	background: #CBF0F9;
+}
+.unread-false {
+	background: #FFFFFF;
+}
+.chat-item {
+	text-align: left;
+	padding: 10px;
+	border-bottom: 1px solid silver;
+}
+.chat-item:last-child {
+	border: none;
+}
+.float-right {
+	float: right;
 }
 
-@media only screen and (min-width: 700px) {
-    #intro {
-    width: 100%;
-  }
-  /*ul.nav li.dropdown:hover > ul.dropdown-menu {
-    display: block;
-  }*/
+@media (min-width: 768px) {
+	nav li.dropdown:hover > .dropdown-menu {
+	    display: block;
+	  }
+	.navbar {
+		background: transparent;
+		border: none;
+	}
+    .navbar .navbar-nav {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+	.navbar .navbar-collapse {
+        text-align: center;
+    }
+    .form-horizontal .control-label {
+    	text-align: left;
+    }
+}
 }

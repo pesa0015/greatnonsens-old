@@ -6,7 +6,7 @@
         <h4 class="modal-title">Skapa en story</h4>
       </div>
       <div class="modal-body">
-        <form action="post/new_story" method="post">
+        <form action="form/post/story/new" method="post">
           <div class="row">
             <div class="col-xs-8">
               <div class="form-group<?=(isset($_SESSION['errors']['story_title'])) ? ' has-error' : ''; ?>">

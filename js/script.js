@@ -1,18 +1,35 @@
-$(document).ready(function () {
-    $('#newStoryModal').on('hidden.bs.modal', function () {
-    	window.history.back();
-	});
-});
-
-$(document).ready(function () {
-    $('#writeModal').on('hidden.bs.modal', function () {
-    	window.history.back();
-	});
-});
+// $(document).ready(function(){
+//   $('#hide_register').on('hidden.bs.dropdown', function(){
+//         $('#login_form').css('opacity', '1');
+//     });
+// });
 
 $(document).ready(function(){
-  $('#hide_register').on('hidden.bs.dropdown', function(){
-        $('#login_form').css('opacity', '1');
+    $('#select2_family').select2({
+      tags: true,
+      ajax: {
+       url: 'form/search.php',
+       type: 'POST',
+       dataType: 'json',
+       minimumInputLength: 1,
+       data: function (writers) {
+           return {
+             writers: writers,
+           };
+       },
+       results: function (data) {
+                var myResults = [];
+                $.each(data, function (index, item) {
+                    myResults.push({
+                        'id': item.user_id,
+                        'text': item.username
+                    });
+                });
+                return {
+                    results: myResults
+                };
+            }
+      }
     });
 });
 

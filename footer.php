@@ -1,39 +1,23 @@
 		</div> <!-- END #WRAPPER -->
-		<script src="vendor/js/jquery-1.11.1.min.js"></script>
-		<script src="vendor/js/bootstrap.min.js"></script>
-		<script src="vendor/js/jquery.noty.packaged.min.js"></script>
-		<script src="js/script.js"></script>
-		<?php if (isset($_GET['view']) && $_GET['view'] == 'new_story') { ?>
-		    <script type="text/javascript">
-		        $(window).load(function(){
-		            $('#newStoryModal').modal('show');
-		        });
-		    </script>
-		<?php } if (isset($_GET['view']) && $_GET['view'] == 'choose_story') { ?>
-		    <script type="text/javascript">
-		        $(window).load(function(){
-		            $('#writeModal').modal('show');
-		        });
-		    </script>
-		<?php }
-		if (isset($_SESSION['noty_message'])) { ?>
-		    <script>
-		    	var n = noty({
-			        text        : '<?=$_SESSION['noty_message']['text']; ?>',
-			        type        : '<?=$_SESSION['noty_message']['type']; ?>',
-			        dismissQueue: '<?=$_SESSION['noty_message']['dismissQueue']; ?>',
-			        layout      : '<?=$_SESSION['noty_message']['layout']; ?>',
-			        theme       : '<?=$_SESSION['noty_message']['theme']; ?>',
-			        timeout 	: '<?=$_SESSION['noty_message']['timeout']; ?>'
-			        });
-		    </script>
-		<?php unset($_SESSION['noty_message']); }
-		if (isset($_SESSION['errors']))
-			unset($_SESSION['errors']);
-		if (isset($_SESSION['login']))
-			unset($_SESSION['login']);
-		if (isset($_SESSION['register']))
-			unset($_SESSION['register']);
+		<script src="assets/js/jquery-1.11.1.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
+		<script src="assets/js/jquery.noty.packaged.min.js"></script>
+		<script src="assets/js/jquery.timeago.js"></script>
+		<?php if (isset($group_id)): ?>
+		<script>var group_id = <?=$group_id; ?>;</script>
+		<?php endif; ?>
+		<script src="js/main.php"></script>
+		<?php if (isset($script)): ?>
+		<script src="<?=$script; ?>"></script>
+		<?php endif; ?>
+		<!--<script src="js/script.js"></script>-->
+		<?php if (isset($_SESSION['noty_message'])): ?>
+			<script>var n = noty({text: '<?=$_SESSION['noty_message']['text']; ?>', type: '<?=$_SESSION['noty_message']['type']; ?>', dismissQueue: '<?=$_SESSION['noty_message']['dismissQueue']; ?>', layout: '<?=$_SESSION['noty_message']['layout']; ?>', theme: '<?=$_SESSION['noty_message']['theme']; ?>', timeout: '<?=$_SESSION['noty_message']['timeout']; ?>'});</script>
+		<?php unset($_SESSION['noty_message']);
+		endif;
+		if (isset($_SESSION['errors'])) unset($_SESSION['errors']);
 		?>
 	</body>
 </html>

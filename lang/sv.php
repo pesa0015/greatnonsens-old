@@ -40,6 +40,30 @@ $translate = array(
 		    'layout' => 'topCenter',
 		    'theme' => 'defaultTheme',
 		    'timeout' => 5000
+			),
+		'group_created' => array(
+			'text' => 'Gruppen har skapats',
+			'type' => 'success',
+		    'dismissQueue' => false,
+		    'layout' => 'topCenter',
+		    'theme' => 'defaultTheme',
+		    'timeout' => 3000
+			),
+		'invite_sent' => array(
+			'text' => 'Inbjudan har skickats',
+			'type' => 'success',
+		    'dismissQueue' => false,
+		    'layout' => 'topCenter',
+		    'theme' => 'defaultTheme',
+		    'timeout' => 3000
+			),
+		'friend_request_sent' => array(
+			'text' => 'Vänförfrågan har skickats',
+			'type' => 'success',
+		    'dismissQueue' => false,
+		    'layout' => 'topCenter',
+		    'theme' => 'defaultTheme',
+		    'timeout' => 3000
 			)
 		),
 	// Content section

@@ -4,34 +4,6 @@ require 'session.php';
 
 require 'lang/list.php';
 
-$themes = array(
-            1 => 'cerulean',
-            2 => 'cosmo',
-            3 => 'cyborg',
-            4 => 'darkly',
-            5 => 'flatly',
-            6 => 'journal',
-            7 => 'lumen',
-            8 => 'paper',
-            9 => 'readable',
-            10 => 'sandstone',
-            11 => 'simplex',
-            12 => 'slate',
-            13 => 'spacelab',
-            14 => 'superhero',
-            15 => 'united',
-            16 => 'yeti'
-            );
-
-if (isset($_GET['theme']) && !is_numeric($_GET['theme'])) {
-	$_SESSION['theme'] = $_GET['theme'];
-	header('Location: index');
-}
-
-// echo '<pre>';
-// print_r($_SESSION);
-// echo '</pre>';
-
 if (isset($_GET['lang'])) {
 	$_SESSION['lang'] = $_GET['lang'];
 	header('Location: index');
@@ -39,97 +11,96 @@ if (isset($_GET['lang'])) {
 
 require 'lang/config.php';
 
+if (isset($_SESSION['user']))
+	$groups = sqlSelect("SELECT groups.id, groups.name FROM groups INNER JOIN `groups_activity_history` ON groups.id = groups_activity_history.group_id WHERE user_id = {$_SESSION['user']['id']} ORDER BY groups_activity_history.id DESC LIMIT 5;");
+
 ?>
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<meta description="">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Great nonsens</title>
-		<?php if (isset($_SESSION['theme'])): ?>
-			<link id="theme" href="vendor/css/bootstrap.min.<?=$_SESSION['theme']; ?>.css" rel="stylesheet">
-		<?php else: ?>
-			<link href="vendor/css/bootstrap.min.superhero.css" rel="stylesheet">
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Great nonsens</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- Bootstrap itself -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.css">
+	<link rel="stylesheet" href="assets/css/magister.css">
+	<link rel="stylesheet" href="assets/css/ionicons.min.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Fonts -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+</head>
+
+<!-- use "theme-invert" class on bright backgrounds, also try "text-shadows" class -->
+<body class="theme-invert">
+<header>
+	<h1><a href="/">&lt;?&gt;</a></h1>
+	<?php if (isset($_SESSION['user'])): ?>
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	      	<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Grupper <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="groups?view=new">Skapa ny grupp</a></li>
+	            <li><a href="groups?view=search">Sök grupp</a></li>
+	            <li><a href="groups?view=invites">Inbjudan</a></li>
+	            <?php if ($groups): ?>
+	            <li class="divider"></li>
+	            <?php foreach ($groups as $group): ?>
+	            <li><a href="groups?view=<?=$group['id']; ?>"><?=$group['name']; ?></a></li>
+	        	<?php endforeach; ?>
+	        	<li class="divider"></li>
+	        	<?php endif; ?>
+	            <li><a href="groups?view=my_groups">Mer</a></li>
+	          </ul>
+	        </li>
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$_SESSION['user']['name']; ?> <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="profile?view=<?=$_SESSION['user']['id']; ?>">Profil</a></li>
+	            <li><a href="profile?view=friends">Vänner</a></li>
+	            <li><a href="profile?view=change_password">Byt lösenord</a></li>
+	          </ul>
+	        </li>
+	        <li id="news_icon" class="dropdown">
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Händelser <span class="badge"></span></a>
+	          <ul id="news" class="dropdown-menu" role="menu">
+	            <li id="nothing_happened">Ingeting nytt har hänt</li>
+	            <li id="newsitem_read">Markera alla som lästa</li>
+	          </ul>
+	        </li>
+	        <li><a href="logout">Logga ut</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+<?php endif; ?>
+</header>
+<?php if (!isset($_SESSION['user'])): ?>
+<nav class="mainmenu">
+	<div class="container">
+		<div class="dropdown">
+			<button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+			<!-- <a data-toggle="dropdown" href="#">Dropdown trigger</a> -->
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+				<li><a href="signup">Registrera</a></li>
+			</ul>
+		</div>
+		<form action="form/post/user/auth.php" method="post">
+			<input type="text" name="user" placeholder="Användarnamn"><input type="password" name="password" placeholder="Lösenord"><input type="submit" name="submit" value="Logga in">
+		</form>
 		<?php endif; ?>
-		<link href="vendor/css/ionicons.min.css" rel="stylesheet"></a>
-		<link href="vendor/css/magister.css" rel="stylesheet" type="text/css">
-		<link href="css/style.css" rel="stylesheet">
-	</head>
-	<body>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle Navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li id="logo"><a href="/">< ? ></a></li>
-					</ul>
-					<?php if (!isset($_SESSION['user'])): ?>
-						<ul class="nav navbar-nav navbar-right">
-							<form action="post/user/auth" method="post" id="login_form" class="navbar-form navbar-left">
-					        	<div class="form-group">
-					          		<input type="text" name="user" class="form-control" placeholder="Användarnamn/email" autofocus>
-					        	</div>
-					        	<div class="form-group">
-					          		<input type="text" name="password" class="form-control" placeholder="Lösenord">
-					        	</div>
-					        	<input type="submit" class="btn btn-default" value="<?=$translate['Log_in']; ?>">
-					      	</form>
-							<li id="hide_register" class="dropdown">
-								<a href="#" id="register" class="dropdown-toggle" data-toggle="dropdown"><?=$translate['Register']; ?></a>
-								<ul id="register_area" class="dropdown-menu" role="menu" style="width: 300px;">
-            						<form action="post/user/new" method="post">
-            							<div class="col-lg-12">
-									        <input type="text" name="user" class="form-control" placeholder="Användarnamn">
-									    </div>
-									    <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px;">
-									        <input type="text" name="email" class="form-control" placeholder="Email">
-									    </div>
-										<div class="col-lg-12" style="margin-bottom: 10px;">
-									        <input type="password" name="password" id="password" class="form-control" placeholder="Lösenord" style="margin-bottom: 5px;">
-									        <p class="text-warning">Minst 5 tecken</p>
-									    </div>
-									    <div id="password_repeat" class="col-lg-12" style="margin-bottom: 10px; display: none;">
-									    	<h5>Repetera lösenord</h5>
-									        <input type="password" name="password_repeat" class="form-control" placeholder="Lösenord">
-									    </div>
-									    <div class="col-lg-12 col-lg-offset-2">
-									        <input type="submit" class="btn btn-primary" value="Registrera">
-									    </div>
-									</form>
-            					</ul>
-            				</li>
-							<li class="dropdown">
-          						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$translate['Language'] . ': ' . $current_lang; ?></a>
-          						<ul class="dropdown-menu" role="menu">
-            						<?php foreach ($languages as $code => $lang): ?>
-            							<li><a href="index?lang=<?=$code; ?>"><?=$lang; ?></a></li>
-            						<?php endforeach; ?>
-            					</ul>
-            				</li>
-							<li class="dropdown">
-          						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$translate['Change_theme']; ?></a>
-          						<ul id="change_theme" class="dropdown-menu" role="menu">
-            						<?php foreach ($themes as $code => $theme): ?>
-            							<li><a href="index?theme=<?=$theme; ?>" id="<?=$theme; ?>"><?=ucfirst($theme); echo ($theme == $_SESSION['theme']) ? '<span class="ion-checkmark-circled" style="float: right;"></span>' : ''; ?></a></li>
-            						<?php endforeach; ?>
-            					</ul>
-							<li><a href="/"><?=$translate['About']; ?></a></li>
-						</ul>
-					<?php else: ?>
-						<ul class="nav navbar-nav navbar-right">
-							<!-- Menu to display when logged in -->
-						</ul>
-					<?php endif; ?>
-				</div>
-			</div>
-		</nav>
-		<div class="wrapper">
+	</div>
+</nav>

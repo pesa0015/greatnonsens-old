@@ -44,6 +44,12 @@ input {
 .float-right {
 	float: right;
 }
+.bold {
+	font-weight: 900;
+}
+.light {
+	font-weight: 200;
+}
 
 @media (min-width: 768px) {
 	nav li.dropdown:hover > .dropdown-menu {

@@ -9,7 +9,6 @@ require 'header.php';
 
 if (isset($_GET['view'])) {
 	if (is_numeric($_GET['view'])) {
-		$group_id = $_GET['view'];
 		require 'views/groups/nav.php';
 
 		if (!isset($_GET['show']))
@@ -18,6 +17,7 @@ if (isset($_GET['view'])) {
 			switch ($_GET['show']) {
 				case 'chat':
 					require 'views/groups/chat.php';
+					$script = "js/groups.chat.php?view={$_GET['view']}";
 					break;
 				case 'news':
 					require 'views/groups/news.php';

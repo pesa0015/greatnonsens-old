@@ -5,9 +5,7 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
 		<script src="assets/js/jquery.noty.packaged.min.js"></script>
 		<script src="assets/js/jquery.timeago.js"></script>
-		<?php if (isset($group_id)): ?>
-		<script>var group_id = <?=$group_id; ?>;</script>
-		<?php endif; ?>
+		<script src="assets/js/validator.min.js"></script>
 		<script src="js/main.php"></script>
 		<?php if (isset($script)): ?>
 		<script src="<?=$script; ?>"></script>

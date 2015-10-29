@@ -8,7 +8,7 @@ header('Content-Type: application/javascript');
 
 var greatnonsens = new Firebase('https://greatnonsens.firebaseio.com/');
 
-			var news = greatnonsens.child('users_news_feed/<?=$_SESSION['user']['id']; ?>/newsItem/');
+			var news = greatnonsens.child('users/<?=$_SESSION['user']['id']; ?>/news_feed/');
 			var chat = greatnonsens.child('groups/' + group_id + '/chat/');
 
 			// alert(newsitem);

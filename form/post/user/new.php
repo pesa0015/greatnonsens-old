@@ -1,30 +1,5 @@
 <?php
 
-// require '../../../lib/Firebase/url.php';
-// getFirebase($require = true);
-
-// // $url = 'https://test-greatnonsens.firebaseio.com/';
-// // $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhZG1pbiI6ZmFsc2UsImRlYnVnIjpmYWxzZSwiZCI6eyJ1aWQiOiJleGFtcGxlSUQifSwidiI6MCwiaWF0IjoxNDQ1NDQ1ODI3fQ.EULQYboGViEQ4plfWNrVDhpIapJ_sBlz9UVoVuBeXso';
-
-// $firebase = new Firebase\FirebaseLib($url, $token);
-
-// $test = array(
-	
-// 				'data' => 'false',
-// 				'from' => 'false',
-// 				'name' => 'false',
-// 				'time' => time(),
-// 				'type' => 'account_registered',
-// 				'unread' => 'false'
-		
-// 	);
-// // $dateTime = new DateTime();
-// if ($firebase->push('/users_news_feed/16/', $test))
-// 	echo 1;
-
-// // if ($firebase->set('/groups/7/', $test))
-// // 	echo 1;
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	session_start();
@@ -93,11 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$user_exists = sqlSelect("SELECT username, email FROM (SELECT username FROM users WHERE username = '$user') A, (SELECT email FROM users WHERE email = '$email') B;");
 
 		if ($user_exists) {
-			// echo "SELECT username, email FROM (SELECT username FROM users WHERE username = '$user') A, (SELECT email FROM users WHERE email = '$email') B;<br />";
-			// echo '<pre>';
-			// print_r($user_exists);
-			// echo '</pre>';
-			// die;
 			if ($user_exists[0]['username']) {
 				array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Användarnamnet är upptaget");
 				$_SESSION['register']['user'] = $user;
@@ -125,36 +95,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$user_id = sqlAction("INSERT INTO users (facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key, theme) VALUES (null, '$user', '$password', '$email', now(), null, null, null, null);", $getLastId = true);
 
 			$firebaseArray = array(
-				'data' => 'false',
 				'from' => 'false',
-				'name' => 'false',
+				'group' => 'false',
+				'story' => 'false',
 				'time' => time(),
 				'type' => 'account_registered',
 				'unread' => 'false'
 				);
 
-			if ($user_id && $firebase->push("/users_news_feed/$user_id/", $firebaseArray)) {
-					$_SESSION['noty_message'] = array(
-						'text' => $translate['noty_message']['user_created']['text'],
-						'type' => $translate['noty_message']['user_created']['type'],
-						'dismissQueue' => $translate['noty_message']['user_created']['dismissQueue'],
-						'layout' => $translate['noty_message']['user_created']['layout'],
-						'theme' => $translate['noty_message']['user_created']['theme'],
-						'timeout' => $translate['noty_message']['user_created']['timeout']
-						);
-					header('Location: ../../../login');
+			if ($user_id && $firebase->push(usersNewsFeed($user_id), $firebaseArray)) {
+				$_SESSION['noty_message'] = array(
+					'text' => $translate['noty_message']['user_created']['text'],
+					'type' => $translate['noty_message']['user_created']['type'],
+					'dismissQueue' => $translate['noty_message']['user_created']['dismissQueue'],
+					'layout' => $translate['noty_message']['user_created']['layout'],
+					'theme' => $translate['noty_message']['user_created']['theme'],
+					'timeout' => $translate['noty_message']['user_created']['timeout']
+				);
+				header('Location: ../../../login');
 			}
-			// if (sqlAction("INSERT INTO users (facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key, theme) VALUES (null, '$user', '$password', '$email', now(), null, null, null, null);")) {
-			// 	$_SESSION['noty_message'] = array(
-			// 		'text' => $translate['noty_message']['user_created']['text'],
-			// 		'type' => $translate['noty_message']['user_created']['type'],
-			// 		'dismissQueue' => $translate['noty_message']['user_created']['dismissQueue'],
-			// 		'layout' => $translate['noty_message']['user_created']['layout'],
-			// 		'theme' => $translate['noty_message']['user_created']['theme'],
-			// 		'timeout' => $translate['noty_message']['user_created']['timeout']
-			// 		);
-			// 	header('Location: ../../login');
-			// }
 		}
 	}
 }

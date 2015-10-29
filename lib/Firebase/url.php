@@ -25,6 +25,10 @@ function getFirebase($require = false) {
  	}
 }
 
+function usersNewsFeed($id) {
+	return "/users/{$id}/news_feed/";
+}
+
 $url = 'https://greatnonsens.firebaseio.com/';
 $token = getToken();
 

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$friend_request .= ';';
 
 		foreach ($users_exists as $new_friend) {
-			$firebase->push("/users_news_feed/{$new_friend['user_id']}/", $firebaseArray);
+			$firebase->push(usersNewsFeed($new_friend['user_id']), $firebaseArray);
 		}
 
 		if (sqlAction($friend_request)) {
@@ -67,11 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			header('Location: ../../../profile?view=friends');
 		}
 	}
-
-	// echo '<pre>';
-	// print_r($friends);
-	// echo '</pre>';
-
 }
 
 ?>

@@ -25,6 +25,7 @@ if (!isset($_GET['edit'])) {
 				if (!empty($group[0]['admin'])): ?>
 				<form action="form/post/group/edit_description" method="post">
 					<input type="hidden" name="group_id" value="<?=$_GET['view']; ?>">
+					<input type="hidden" name="group_name" value="<?=$group_info[0]['name']; ?>">
 					<textarea name="group_description" class="form-control"><?=$group[0]['description']; ?></textarea>
 					<input type="submit" class="btn btn-success" value="Spara">
 				</form>

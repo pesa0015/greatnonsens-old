@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 	else {
 		$group_id = sqlAction("INSERT INTO groups (name, secret, open, chat_is_public, description, created) VALUES ('{$name}', {$secret}, {$open}, {$chat}, '{$description}', now());", $getLastId = true);
+		$group = sqlSelect("SELECT id, name FROM groups WHERE id = {$group_id};");
 
 		if ($group_id) {
 			$group_m = "INSERT INTO group_members (group_id, user_id, admin, joined) VALUES ({$group_id}, {$_SESSION['user']['id']}, 1, now());";
@@ -65,16 +66,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$firebase = new Firebase\FirebaseLib($url, $token);
 
-			$firebaseArray_1 = array(
-				'data' => 'false',
-				'from' => $_SESSION['user']['id'],
-				'name' => "{$_SESSION['user']['name']}",
-				'time' => time(),
-				'type' => 'group_created',
-				'unread' => 'true'
-			);
+			// $firebaseArray_1 = array(
+			// 	'data' => 'false',
+			// 	'from' => $_SESSION['user']['id'],
+			// 	'name' => "{$_SESSION['user']['name']}",
+			// 	'time' => time(),
+			// 	'type' => 'group_created',
+			// 	'unread' => 'true'
+			// );
 
-			$firebase->push("/groups/{$group_id}/groups_news_feed/", $firebaseArray_1);
+			// $firebase->push("/groups/{$group_id}/news_feed/", $firebaseArray_1);
 
 			if (!empty($group_members)) {
 				$group_invites = "INSERT INTO group_members (group_id, user_id, status, admin, joined) VALUES ";
@@ -82,14 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 				foreach ($users_exists as $user) {
 					$firebaseArray_2 = array(
-						'data' => 'false',
-						'from' => $_SESSION['user']['id'],
-						'name' => "{$_SESSION['user']['name']}",
+						'from' => array('user_id' => $_SESSION['user']['id'], 'user_name' => "{$_SESSION['user']['name']}"),
+						'group' => array('group_id' => $group[0]['id'], 'group_name' => "{$group[0]['name']}"),
+						'story' => 'false',
 						'time' => time(),
 						'type' => 'invited',
 						'unread' => 'true'
 					);
-					$firebase->push("/users_news_feed/{$user['user_id']}/", $firebaseArray_2);
+					$firebase->push(usersNewsFeed($user['user_id']), $firebaseArray_2);
 					$group_invites .= "({$group_id}, {$user['user_id']}, 2, 0, 'null'), ";
 					$group_news_feed .= "({$group_id}, {$_SESSION['user']['id']}, 'invited', '{\"id\":{$user['user_id']}, \"username\":\"{$user['username']}\"}', now()), ";
 				}

@@ -10,10 +10,6 @@ var greatnonsens = new Firebase('https://greatnonsens.firebaseio.com/');
 
 var news = greatnonsens.child('users/<?=$_SESSION['user']['id']; ?>/news_feed/');
 
-// alert(newsitem);
-// // var newsitem_read = document.getElementById('news');
-			// console.log(newsitem.length);
-
 news.limitToLast(5).on('child_added', function(snapshot) {
 	if (snapshot.key() != null || snapshot.key() != 'undefined')
 		$('#nothing_happened').css('display', 'none');

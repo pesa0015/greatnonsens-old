@@ -51,10 +51,16 @@ if (isset($_SESSION['user']))
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 	      	<li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sök <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a href="search?after=group">Grupp</a></li>
+	            <li><a href="search?after=user">Spelare</a></li>
+	          </ul>
+	        </li>
+	      	<li class="dropdown">
 	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Grupper <span class="caret"></span></a>
 	          <ul class="dropdown-menu" role="menu">
 	            <li><a href="groups?view=new">Skapa ny grupp</a></li>
-	            <li><a href="groups?view=search">Sök grupp</a></li>
 	            <li><a href="groups?view=invites">Inbjudan</a></li>
 	            <?php if ($groups): ?>
 	            <li class="divider"></li>

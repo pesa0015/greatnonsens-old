@@ -6,6 +6,7 @@
 		<script src="assets/js/jquery.noty.packaged.min.js"></script>
 		<script src="assets/js/jquery.timeago.js"></script>
 		<script src="assets/js/validator.min.js"></script>
+		<script src="js/firebase_url.js"></script>
 		<script src="js/main.php"></script>
 		<?php if (isset($script)): ?>
 		<script src="<?=$script; ?>"></script>

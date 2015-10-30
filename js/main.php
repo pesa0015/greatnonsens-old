@@ -6,8 +6,6 @@ header('Content-Type: application/javascript');
 
 ?>
 
-var greatnonsens = new Firebase('https://greatnonsens.firebaseio.com/');
-
 var news = greatnonsens.child('users/<?=$_SESSION['user']['id']; ?>/news_feed/');
 
 news.limitToLast(5).on('child_added', function(snapshot) {

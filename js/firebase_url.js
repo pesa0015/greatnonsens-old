@@ -1,0 +1,1 @@
+var greatnonsens = new Firebase('https://greatnonsens.firebaseio.com/');

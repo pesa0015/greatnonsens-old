@@ -1,0 +1,1 @@
+$.getScript('js/select2.js');

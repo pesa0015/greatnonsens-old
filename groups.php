@@ -51,6 +51,7 @@ if (isset($_GET['view'])) {
 		switch ($_GET['view']) {
 			case 'new':
 				require 'views/groups/new.php';
+				$script = 'js/groups.new.js';
 				break;
 			case 'search':
 				require 'views/groups/';

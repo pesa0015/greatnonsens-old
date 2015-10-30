@@ -1,3 +1,5 @@
 /mysql/connect.php
+/lib/Firebase/url.php
+/js/firebase_url.js
 /test
 .htaccess

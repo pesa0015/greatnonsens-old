@@ -36,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			if ($members_exists) {
 				foreach ($members_exists as $member) {
+					if ($member['status'] == 1)
+						array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> {$member['username']} är redan med i gruppen");
 					if ($member['status'] == 2)
 						array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> {$member['username']} är redan inbjuden");
 					if ($member['status'] == 3)

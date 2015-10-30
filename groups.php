@@ -9,6 +9,9 @@ require 'header.php';
 
 if (isset($_GET['view'])) {
 	if (is_numeric($_GET['view'])) {
+		$group_info = sqlSelect("SELECT groups.name, groups.secret, groups.chat_is_public, IF (EXISTS(SELECT user_id FROM group_members WHERE group_id = {$_GET['view']} AND user_id = {$_SESSION['user']['id']}), user_id, 0) AS user_id, group_members.status, group_members.admin FROM groups INNER JOIN group_members ON groups.id = group_members.group_id WHERE group_id = {$_GET['view']} AND user_id = {$_SESSION['user']['id']};");
+		if ($group_info[0]['user_id'] == $_SESSION['user']['id'] && $group_info[0]['status'] == 1)
+			sqlAction("INSERT INTO groups_activity_history (user_id, group_id) VALUES ({$_SESSION['user']['id']}, {$_GET['view']});");
 		require 'views/groups/nav.php';
 
 		if (!isset($_GET['show']))

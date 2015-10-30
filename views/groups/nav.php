@@ -1,10 +1,3 @@
-<?php
-
-$group_info = sqlSelect("SELECT groups.name, groups.secret, groups.chat_is_public, IF (EXISTS(SELECT user_id FROM group_members WHERE group_id = {$_GET['view']} AND user_id = {$_SESSION['user']['id']}), user_id, 0) AS user_id, group_members.status, group_members.admin FROM groups INNER JOIN group_members ON groups.id = group_members.group_id WHERE group_id = {$_GET['view']} AND user_id = {$_SESSION['user']['id']};");
-			?>
-			<!-- <div class="page-header">
-				<h1><?=$group_info[0]['name']; ?></h1>
-			</div> -->
 			<h1><?=$group_info[0]['name']; ?></h1>
 			<ul class="nav nav-pills">
 				<?php if ($group_info[0]['user_id'] == $_SESSION['user']['id'] && $group_info[0]['status'] == 1) { ?>

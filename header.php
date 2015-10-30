@@ -12,7 +12,7 @@ if (isset($_GET['lang'])) {
 require 'lang/config.php';
 
 if (isset($_SESSION['user']))
-	$groups = sqlSelect("SELECT groups.id, groups.name FROM groups INNER JOIN `groups_activity_history` ON groups.id = groups_activity_history.group_id WHERE user_id = {$_SESSION['user']['id']} ORDER BY groups_activity_history.id DESC LIMIT 5;");
+	$groups = sqlSelect("SELECT DISTINCT(groups.id), groups.name FROM groups INNER JOIN `groups_activity_history` ON groups.id = groups_activity_history.group_id WHERE user_id = {$_SESSION['user']['id']} ORDER BY groups_activity_history.id DESC LIMIT 5;");
 
 ?>
 <!DOCTYPE html>

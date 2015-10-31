@@ -4,54 +4,41 @@
         <div class="row">
             <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 text-center">
 
-<?php
-
-$sql_user = sqlSelect("SELECT username, personal_text, profile_img FROM `users` WHERE user_id = {$_GET['view']};");
-
-?>
-
 <h1><?=$sql_user[0]['username']; ?></h1>
 
 <?php
 
 $width_height = 'width="100" height="100"';
 
-if (empty($sql_user[0]['profile_img'])) { ?>
+if (empty($sql_user[0]['profile_img'])): ?>
 	<img id="check_img" src="user_content/user_img/default.png" <?=$width_height; ?> alt="Profilbild">
-<? }
-if (!empty($sql_user[0]['profile_img'])) { ?>
+<?php
+else: ?>
 	<img id="check_img" src="user_content/user_img/<?=$sql_user[0]['profile_img']; ?>" <?=$width_height; ?> alt="Profilbild">
-<? }
+<?php endif;
 
 echo '<hr />';
 
 if ($_GET['view'] != $_SESSION['user']['id']) {
+    $sql_friend = sqlSelect("SELECT friend_request_id, user_id, friend_user_id, status FROM `friends` WHERE user_id = {$_SESSION['user']['id']} AND friend_user_id = {$_GET['view']} OR user_id = {$_GET['view']} AND friend_user_id = {$_SESSION['user']['id']} ORDER BY friend_request_id DESC LIMIT 1;");
     if (isset($sql_friend) && !empty($sql_friend)) {
-    	if ($sql_friend[0]['user_id'] == $_SESSION['user_id'] && $sql_friend[0]['friend_user_id'] == $user_id && $sql_friend[0]['pending'] == 0) {
-    		?>
+    	if ($sql_friend[0]['user_id'] == $_SESSION['user']['id'] && $sql_friend[0]['friend_user_id'] == $_GET['view'] && $sql_friend[0]['status'] == 0) { ?>
     		<h3>Vänförfrågan skickad.</h3>
-    		<button onClick="window.location.replace('profile?delete=friend&id=<?=$sql_friend[0]['friend_request_id']; ?>&user_id=<?=$user_id; ?>&profile');" class="btn btn-danger">Ångra</button>
-    		<?
-    	}
-    	if ($sql_friend[0]['user_id'] == $user_id && $sql_friend[0]['friend_user_id'] == $_SESSION['user_id'] && $sql_friend[0]['pending'] == 0) {
-    		?>
+    		<button onClick="window.location.replace('form/get/friends/undo?id=<?=$sql_friend[0]['friend_request_id']; ?>&friend=<?=$sql_friend[0]['friend_user_id']; ?>&me=<?=$_SESSION['user']['id']; ?>&return_to_profile');" class="btn btn-danger">Ångra</button>
+    		<?php }
+    	if ($sql_friend[0]['user_id'] == $_GET['view'] && $sql_friend[0]['friend_user_id'] == $_SESSION['user']['id'] && $sql_friend[0]['status'] == 0) { ?>
     		<h2><?=$sql_user[0]['username']; ?> vill bli vän med dig.</h2>
-    		<button onClick="window.location.replace('profile?accept=friend&id=<?=$sql_friend[0]['friend_request_id']; ?>&user_id=<?=$user_id; ?>');" class="btn btn-success">Acceptera</button>
-    		<button onClick="window.location.replace('profile?delete=friend&id=<?=$sql_friend[0]['friend_request_id']; ?>&user_id=<?=$user_id; ?>');" class="btn btn-danger">Neka</button>
-    		<?
-    	}
-        if ($sql_friend[0]['pending'] == 2) { ?>
-            <button onClick="window.location.replace('profile?add=friend&user_id=<?=$user_id; ?>');" class="btn btn-success">Skicka vänförfrågan</button>
-            <?
-        }
-    	if ($sql_friend[0]['pending'] == 1) { ?>
+    		<button onClick="window.location.replace('form/get/friends/accept?id=<?=$sql_friend[0]['friend_request_id']; ?>&friend=<?=$sql_friend[0]['user_id']; ?>&me=<?=$_SESSION['user']['id']; ?>&return_to_profile');" class="btn btn-success">Acceptera</button>
+    		<button onClick="window.location.replace('form/get/friends/reject?id=<?=$sql_friend[0]['friend_request_id']; ?>&friend=<?=$sql_friend[0]['user_id']; ?>&me=<?=$_SESSION['user']['id']; ?>&return_to_profile');" class="btn btn-danger">Neka</button>
+    		<?php }
+        if ($sql_friend[0]['status'] == 1) { ?>
     		<h3>Vänner <span class="ion-checkmark-round" style="font-size: 1em;"></span></h3>
-    		<? 
+    		<?php 
     	}
     }
 
     else if (empty($sql_friend)) { ?>
-        <button onClick="window.location.replace('profile?add=friend&user_id=<?=$user_id; ?>');" class="btn btn-success">Skicka vänförfrågan</button>
+        <button onClick="window.location.replace('form/get/friends/add?friend=<?=$_GET['view']; ?>&return_to_profile');" class="btn btn-success">Skicka vänförfrågan</button>
     <?php
     }
 }

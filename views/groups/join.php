@@ -11,12 +11,12 @@
 					<?php
 					if ($group[0]['status'] == 2) { ?>
 					<p>Du är inbjuden till den här gruppen.</p>
-					<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$group[0]['id']; ?>&view=<?=$_GET['view']; ?>');">Avböj</button>
-					<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$group[0]['id']; ?>&view=<?=$_GET['view']; ?>');">Acceptera</button>
+					<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$group[0]['id']; ?>&group_id=<?=$_GET['view']; ?>&view=<?=$_GET['view']; ?>');">Avböj</button>
+					<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$group[0]['id']; ?>&group_id=<?=$_GET['view']; ?>&view=<?=$_GET['view']; ?>');">Acceptera</button>
 					<?php } if ($group[0]['status'] == 3) { ?>
 					<p>Du har ansökt till den här gruppen.</p>
-					<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$group[0]['id']; ?>&view=<?=$_GET['view']; ?>');">Avböj</button>
-					<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$group[0]['id']; ?>&view=<?=$_GET['view']; ?>');">Acceptera</button>
+					<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$group[0]['id']; ?>&group_id=<?=$_GET['view']; ?>&view=<?=$_GET['view']; ?>');">Avböj</button>
+					<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$group[0]['id']; ?>&group_id=<?=$_GET['view']; ?>&view=<?=$_GET['view']; ?>');">Acceptera</button>
 					<?php } if ($group[0]['status'] == 1) { ?>
 					<p>Du är redan med i den här gruppen.</p>
 					<?php } ?>

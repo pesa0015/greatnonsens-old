@@ -23,15 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 							$firebase = new Firebase\FirebaseLib($url, $token);
 
 							$firebaseArray = array(
-								'data' => array('group_id' => "{$member[0]['id']}", 'group_name' => "{$member[0]['name']}"),
-								'from' => $_SESSION['user']['id'],
-								'name' => "{$_SESSION['user']['name']}",
+								'from' => array('user_id' => $_SESSION['user']['id'], 'user_name' => "{$_SESSION['user']['name']}"),
+								'group' => array('group_id' => $_GET['group_id'], 'group_name' => "{$_GET['group_name']}"),
+								'story' => 'false',
 								'time' => time(),
 								'type' => 'removed_admin',
 								'unread' => 'true'
 							);
 
-							$firebase->push("/users_news_feed/{$member[0]['user_id']}/", $firebaseArray);
+							$firebase->push(usersNewsFeed($member[0]['user_id']), $firebaseArray);
 
 							header("Location: ../../../groups?view={$_GET['view']}&show=members");
 						}

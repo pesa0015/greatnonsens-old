@@ -52,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$firebase = new Firebase\FirebaseLib($url, $token);
 
 		$firebaseArray = array(
-			'data' => 'false',
-			'from' => $_SESSION['user']['id'],
-			'name' => "{$_SESSION['user']['name']}",
+			'from' => array('user_id' => $_SESSION['user']['id'], 'user_name' => "{$_SESSION['user']['name']}"),
+			'group' => 'false',
+			'story' => 'false',
 			'time' => time(),
 			'type' => 'friend_request',
 			'unread' => 'true'

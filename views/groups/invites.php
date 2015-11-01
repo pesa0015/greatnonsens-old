@@ -17,8 +17,12 @@
 				<blockquote>
 					<h3>
 						<a href="groups?view=<?=$invite['group_id']; ?>"><?=$invite['name']; ?></a>
-						<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$invite['id']; ?>&view=invites');">Avböj</button>
-						<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$invite['id']; ?>&view=invites');">Acceptera</button>
+						<?php if (!isset($_GET['requests'])): ?>
+						<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/undo_invite?id=<?=$invite['id']; ?>&group_id=<?=$invite['group_id']; ?>&view=requests');">Ångra</button>
+						<?php else: ?>
+						<button class="btn btn-danger float-right" onClick="window.location.replace('form/get/group/reject_invite?id=<?=$invite['id']; ?>&group_id=<?=$invite['group_id']; ?>&view=invites');">Avböj</button>
+						<button class="btn btn-success float-right" onClick="window.location.replace('form/get/group/accept_invite?id=<?=$invite['id']; ?>&group_id=<?=$invite['group_id']; ?>&view=invites');">Acceptera</button>
+					<?php endif; ?>
 					</h3>
 				</blockquote>
 				<?php endforeach; ?>

@@ -5,31 +5,78 @@ session_start();
 header('Content-Type: application/javascript');
 
 ?>
-
 var news = greatnonsens.child('users/<?=$_SESSION['user']['id']; ?>/news_feed/');
 
-news.limitToLast(5).on('child_added', function(snapshot) {
-	if (snapshot.key() != null || snapshot.key() != 'undefined')
-		$('#nothing_happened').css('display', 'none');
+var read = document.getElementById('newsitem_read');
+
+var read_single = document.getElementById('news');
+
+function updateNews() {
+	if (localStorage.news == 1)
+		localStorage.news = 0;
+	else if (localStorage.news > 1)
+		localStorage.news--;
+}
+
+read.addEventListener('click', function() {
+	var to_read = document.getElementsByClassName('unread-true');
+
+	if (typeof to_read[0] !== 'undefined') {
+		for (var i = to_read.length-1; i >= 0; i--) { 
+			news.child(to_read[i].id).update({unread: 'false'});
+			updateNews();
+		}
+		document.getElementById('num_of_news').innerHTML = localStorage.news;
+	}	
+});
+
+var i = 0;
+
+localStorage.news = 0;
+
+news.on('child_added', function(snapshot) {
 	var key = snapshot.key();
 	var data = snapshot.val();
 	var unread = data.unread;
-	var time = jQuery.timeago(data.time);
+	var time = data.time;
 	var type = data.type;
-	var name = data.name;
-	if (type === 'friend_request') {
-		$('#news').append('<li id="' + key + '" class="newsitem unread-' + unread + '"><a href="profile?view=friends">' + name + ' vill bli vän med dig<p>' + time + '</p></a></li>');
-		// alert(snapshot.val().from);
+	var name = data.from.user_name;
+
+	i++;
+
+	if (unread == 'true') {
+		localStorage.news++;
+		num_of_news.innerHTML = localStorage.news;
+	}
+
+	if (i <= 5) {
+		if (type === 'friend_request') {
+			$('#news').append('<li id="' + key + '" class="newsitem unread-' + unread + '" title="profile?view=friends">' + name + ' vill bli vän med dig<p><span data-livestamp="' + time + '"></span></p></li>');
+		}
 	}  
 });
 
-var newsitem = document.getElementById('news');
-// for (var key in newsitem) {
-//   	console.log(key + " -> " + newsitem[key]);
-// }
+if (num_of_news.style.display == 'none')
+	num_of_news.style.display = 'block';
 
-// news.push({'data': false, 'from': 1, 'name': 'soupyfloors', 'type': 'friend_request', 'unread': true, 'time': Firebase.ServerValue.TIMESTAMP});
+news.on('value', function(snapshot) {
+	if (snapshot.numChildren() > 5 && !document.contains(document.getElementById('more')))
+		$('#news').append('<li id="more" title="news">Mer</li>');
+});
 
-// news.on('child_added', function(snapshot) {
-//   	alert(snapshot.val().type);  // Alerts "San Francisco"
-// });
+read_single.addEventListener('click', function(event) {
+	if (event.target.id != 'newsitem_read' && event.target.id != 'more') {
+		if (event.target.className == 'newsitem unread-true') {
+			news.child(event.target.id).update({unread: 'false'});
+			updateNews();
+			window.location.replace(event.target.title);
+		}
+		else {
+			window.location.replace(event.target.title);
+		}
+	}
+});
+
+news.on('child_changed', function(childSnapshot, prevChildKey) {
+	document.getElementById(childSnapshot.key()).className = 'newsitem unread-' + childSnapshot.val().unread;
+});

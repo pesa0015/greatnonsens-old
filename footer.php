@@ -5,6 +5,8 @@
 		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
 		<script src="assets/js/jquery.noty.packaged.min.js"></script>
 		<script src="assets/js/jquery.timeago.js"></script>
+		<script src="http://momentjs.com/downloads/moment.js"></script>
+		<script src="assets/js/livestamp.min.js"></script>
 		<script src="assets/js/validator.min.js"></script>
 		<script src="js/firebase_url.js"></script>
 		<script src="js/main.php"></script>

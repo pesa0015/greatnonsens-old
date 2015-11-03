@@ -80,10 +80,10 @@ if (isset($_SESSION['user']))
 	            <li><a href="profile?view=change_password">Byt lösenord</a></li>
 	          </ul>
 	        </li>
-	        <li id="news_icon" class="dropdown">
-	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Händelser <span class="badge"></span></a>
+	        <li id="is_news" class="dropdown">
+	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Händelser <span id="num_of_news" class="badge"></span></a>
+	        	<script>if (localStorage.getItem('news') === null || isNaN(localStorage.news)) { localStorage.news = 0; }if (localStorage.getItem('lastNewsItem') === null) { localStorage.lastNewsItem = ''; }var num_of_news = document.getElementById('num_of_news');if (localStorage.news == 0) { num_of_news.style.display = 'none'; } else { num_of_news.innerHTML = localStorage.news; }</script>
 	          <ul id="news" class="dropdown-menu" role="menu">
-	            <li id="nothing_happened">Ingeting nytt har hänt</li>
 	            <li id="newsitem_read">Markera alla som lästa</li>
 	          </ul>
 	        </li>

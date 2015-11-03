@@ -20,8 +20,11 @@ input {
 #news_icon {
 	/*font-size: 2em;*/
 }
-#newsitem_read {
+#newsitem_read, #more {
 	margin: 15px;
+	cursor: pointer;
+}
+.newsitem {
 	cursor: pointer;
 }
 #news {

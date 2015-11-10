@@ -1,15 +1,15 @@
 <?php
 
-// require '../../../lib/Firebase/url.php';
-// getFirebase($require = true);
+require '../../../lib/Firebase/url.php';
+getFirebase($require = true);
 
-// $firebase = new Firebase\FirebaseLib($url, $token);
+$firebase = new Firebase\FirebaseLib($url, $token);
 
 // $started = json_decode($firebase->get("stories/started/58/"));
 
 // $firebaseArray = array('latest_words' => 'asdasda');
 
-// $firebase->update("stories/started/58/", $firebaseArray);
+$firebase->set("stories/started/58/", 'latest_words' => 'asdasda');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

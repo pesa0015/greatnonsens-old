@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	if (isset($_POST['writers'])) {
 		$writers = sqlEscape($_POST['writers']);
-		$sql_term = sqlSelect("SELECT user_id, username FROM users WHERE username LIKE '%{$writers}%' LIMIT 5;");
+		$sql_term = sqlSelect("SELECT user_id, username FROM users WHERE type = 1 AND username LIKE '%{$writers}%' LIMIT 5;");
 
 		echo json_encode($sql_term); 
 	}

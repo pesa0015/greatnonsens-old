@@ -8,6 +8,7 @@
 		<script src="http://momentjs.com/downloads/moment.js"></script>
 		<script src="assets/js/livestamp.min.js"></script>
 		<script src="assets/js/validator.min.js"></script>
+		<script src="assets/js/spin.min.js"></script>
 		<script src="js/firebase_url.js"></script>
 		<script src="js/main.php"></script>
 		<?php if (isset($script)): ?>

@@ -3,19 +3,29 @@
 require 'mysql/query.php';
 
 if (!isset($_COOKIE['guest_id'])) {
-    if (sqlAction("INSERT INTO guests (theme, expired, date) VALUES (null, 0, now());")) {
-        $id = sqlSelect("SELECT MAX(guest_id) AS id FROM guests");
-        $_SESSION['guest_id'] = $id[0]['id'];
+    $guest_id = sqlAction("INSERT INTO users (type, facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key) VALUES (0, null, 'Guest', null, null, now(), null, null, null);", $getLastId = true);
+    if (is_numeric($guest_id)) {
+        $_SESSION['guest_id'] = $guest_id;
         $_SESSION['lang'] = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
-        $_SESSION['theme'] = 'superhero';
-        setcookie('guest_id', $id[0]['id'], strtotime('today 23:59'));
+        $_SESSION['me']['id'] = $guest_id;
+        $_SESSION['me']['name'] = 'Guest';
+        setcookie('guest_id', $guest_id, strtotime('today 23:59'));
     }
 }
 
 else if (isset($_COOKIE['guest_id']) && !isset($_SESSION['guest'])) {
     $_SESSION['guest_id'] = $_COOKIE['guest_id'];
     $_SESSION['lang'] = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2);
-    $_SESSION['theme'] = 'superhero';
+
+    if (isset($_SESSION['user']['id'])) {
+        $_SESSION['guest_id'] = false;
+        $_SESSION['me']['id'] = $_SESSION['user']['id'];
+        $_SESSION['me']['name'] = $_SESSION['user']['name'];
+    }
+    else {
+        $_SESSION['me']['id'] = $_SESSION['guest_id'];
+        $_SESSION['me']['name'] = 'Guest';
+    }
 }
 
 ?>

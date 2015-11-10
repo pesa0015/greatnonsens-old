@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 
 	if (!empty($friends)) {
-		$users = sqlSelect("SELECT user_id, username FROM `users` WHERE user_id IN ({$friends}) OR username IN ({$friends});");
+		$users = sqlSelect("SELECT user_id, username FROM `users` WHERE type = 1 AND user_id IN ({$friends}) OR username IN ({$friends});");
 
 		if (!$users) {
 			if (strlen($friends) >= 3)

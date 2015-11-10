@@ -35,19 +35,6 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-xs-8">
-              <div class="form-group">
-                <h5>Flexibel:</h5>
-                <div class="radio">
-                  <label><input type="radio" name="flexible" id="flexible_no" value="0" checked="">Nej</label>
-                </div>
-                <div class="radio">
-                  <label><input type="radio" name="flexible" id="flexible_yes" value="1">Ja</label>
-                </div>
-              </div>
-            </div>
-          </div>
           <div id="rounds" class="row">
             <div class="col-xs-8">
               <div class="form-group">
@@ -57,7 +44,7 @@
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
-                  <option value="5">5</option>
+                  <option value="5" selected>5</option>
                 </select>
                 <div class="checkbox">
                   <label>
@@ -115,8 +102,7 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" name="new_story" value="Skapa" class="btn btn-success">
+        <input type="submit" name="new_story" value="Skapa" id="new_story_submit" class="btn btn-success">
         </form>
       </div>
     </div>
@@ -126,9 +112,9 @@
   var more_rounds = document.getElementById('more_rounds');
   var num_of_rounds = document.getElementById('num_of_rounds');
   var add_rounds = document.getElementById('add_rounds');
-  var add_length = document.getElementById('add_length');
-  var longer_story = document.getElementById('longer_story');
-  var select_story_length = document.getElementById('select_story_length');
+  // var add_length = document.getElementById('add_length');
+  // var longer_story = document.getElementById('longer_story');
+  // var select_story_length = document.getElementById('select_story_length');
   more_rounds.addEventListener('click', function() {
       if (!num_of_rounds.disabled) {
         num_of_rounds[0].innerHTML = '<option value=""></option>';
@@ -155,37 +141,37 @@
       }
   });
 
-var flexible_yes = document.getElementById('flexible_yes');
-var flexible_no = document.getElementById('flexible_no');
-var rounds = document.getElementById('rounds');
+// var flexible_yes = document.getElementById('flexible_yes');
+// var flexible_no = document.getElementById('flexible_no');
+// var rounds = document.getElementById('rounds');
 
-flexible_yes.addEventListener('click', function() {
-  if (rounds.style.display != 'none') {
-    if (add_rounds.style.display == 'block')
-      add_rounds.style.display = 'none';
-    if (more_rounds.checked)
-      more_rounds.checked = false;
-    if (num_of_rounds.disabled) {
-      num_of_rounds[0].innerHTML = '<option value="1">1</option>';
-      num_of_rounds.disabled = false;
-    }
-    rounds.style.display = 'none';
-    div_story_length.style.display = 'block';
-  }  
-});
+// flexible_yes.addEventListener('click', function() {
+//   if (rounds.style.display != 'none') {
+//     if (add_rounds.style.display == 'block')
+//       add_rounds.style.display = 'none';
+//     if (more_rounds.checked)
+//       more_rounds.checked = false;
+//     if (num_of_rounds.disabled) {
+//       num_of_rounds[0].innerHTML = '<option value="1">1</option>';
+//       num_of_rounds.disabled = false;
+//     }
+//     rounds.style.display = 'none';
+//     div_story_length.style.display = 'block';
+//   }  
+// });
 
-flexible_no.addEventListener('click', function() {
-  if (rounds.style.display == 'none') {
-    if (longer_story.checked)
-      longer_story.checked = false;
-    if (add_length.style.display == 'block')
-      add_length.style.display = 'none';
-    if (select_story_length.disabled) {
-      select_story_length[0].innerHTML = '<option value="10">10</option>';
-      select_story_length.disabled = false;
-    }
-    rounds.style.display = 'block';
-    div_story_length.style.display = 'none';
-  }
-});
+// flexible_no.addEventListener('click', function() {
+//   if (rounds.style.display == 'none') {
+//     if (longer_story.checked)
+//       longer_story.checked = false;
+//     if (add_length.style.display == 'block')
+//       add_length.style.display = 'none';
+//     if (select_story_length.disabled) {
+//       select_story_length[0].innerHTML = '<option value="10">10</option>';
+//       select_story_length.disabled = false;
+//     }
+//     rounds.style.display = 'block';
+//     div_story_length.style.display = 'none';
+//   }
+// });
 </script>

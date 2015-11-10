@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$user = sqlEscape($_POST['user']);
 	$password = sqlEscape($_POST['password']);
 
-	$user_exists = sqlSelect("SELECT user_id, username, password FROM `users` WHERE username = '$user' OR email = '$user';");
+	$user_exists = sqlSelect("SELECT user_id, username, password FROM `users` WHERE type = 1 AND username = '$user' OR email = '$user';");
 
 	$_SESSION['errors'] = array();
 	$_SESSION['login'] = array();
@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			$_SESSION['user']['id'] = $user_exists[0]['user_id'];
 			$_SESSION['user']['name'] = $user_exists[0]['username'];
+
+			unset($_SESSION['login']);
 
 			header('Location: ../../../');
 		}

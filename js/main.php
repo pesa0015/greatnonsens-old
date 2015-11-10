@@ -2,6 +2,8 @@
 
 session_start();
 
+if (isset($_SESSION['user'])) {
+
 header('Content-Type: application/javascript');
 
 ?>
@@ -80,3 +82,4 @@ read_single.addEventListener('click', function(event) {
 news.on('child_changed', function(childSnapshot, prevChildKey) {
 	document.getElementById(childSnapshot.key()).className = 'newsitem unread-' + childSnapshot.val().unread;
 });
+<?php } ?>

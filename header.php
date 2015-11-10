@@ -92,21 +92,20 @@ if (isset($_SESSION['user']))
 	    </div>
 	  </div>
 	</nav>
+<?php else: ?>
+	<nav class="mainmenu" id="hide">
+		<div class="container">
+			<div class="dropdown">
+				<button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+				<!-- <a data-toggle="dropdown" href="#">Dropdown trigger</a> -->
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+					<li><a href="signup">Registrera</a></li>
+				</ul>
+			</div>
+			<form action="form/post/user/auth.php" method="post">
+				<input type="text" name="user" placeholder="Användarnamn"><input type="password" name="password" placeholder="Lösenord"><input type="submit" name="submit" value="Logga in">
+			</form>
+		</div>
+	</nav>
 <?php endif; ?>
 </header>
-<?php if (!isset($_SESSION['user'])): ?>
-<nav class="mainmenu">
-	<div class="container">
-		<div class="dropdown">
-			<button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-			<!-- <a data-toggle="dropdown" href="#">Dropdown trigger</a> -->
-			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-				<li><a href="signup">Registrera</a></li>
-			</ul>
-		</div>
-		<form action="form/post/user/auth.php" method="post">
-			<input type="text" name="user" placeholder="Användarnamn"><input type="password" name="password" placeholder="Lösenord"><input type="submit" name="submit" value="Logga in">
-		</form>
-		<?php endif; ?>
-	</div>
-</nav>

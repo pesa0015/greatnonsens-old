@@ -17,6 +17,9 @@ input {
 .radio label, .checkbox label {
 	float: left;
 }
+#new_story_submit {
+	width: 100%;
+}
 #news_icon {
 	/*font-size: 2em;*/
 }
@@ -73,5 +76,7 @@ input {
     .form-horizontal .control-label {
     	text-align: left;
     }
-}
+    #choose_story_modal {
+    	width: 70%;
+    }
 }

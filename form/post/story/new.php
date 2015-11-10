@@ -1,14 +1,12 @@
 <?php
 
-// if ($_SERVER['REQUEST_METHOD'] != 'POST')
-// 	header('Location: ../');
-
-session_start();
-
-require '../../../mysql/query.php';
-require '../../../lang/config.php';
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	session_start();
+
+	require '../../../mysql/query.php';
+	require '../../../lang/config.php';
+	
 	if (isset($_COOKIE['story_nr_5'])) {
 		$_SESSION['noty_message'] = array(
 			'text' => $translate['noty_message']['already_3_stories']['text'],
@@ -43,36 +41,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$current_round = 'null';
 		$user_id = 'null';
 		$guest_id = 'null';
-		if ($_POST['flexible'] == 0 && is_numeric($_POST['rounds']))
+		// if ($_POST['flexible'] == 0 && is_numeric($_POST['rounds']))
+		// 	$rounds = $_POST['rounds'];
+		// if ($_POST['flexible'] == 0 && is_numeric($_POST['more_rounds']))
+		// 	$rounds = $_POST['more_rounds'];
+		// if ($_POST['flexible'] == 1 && is_numeric($_POST['story_length']))
+		// 	$story_length = $_POST['story_length'];
+		// if ($_POST['flexible'] == 1 && is_numeric($_POST['longer_story']))
+		// 	$story_length = $_POST['longer_story'];
+		if (is_numeric($_POST['rounds']) && !is_numeric($_POST['more_rounds']))
 			$rounds = $_POST['rounds'];
-		if ($_POST['flexible'] == 0 && is_numeric($_POST['more_rounds']))
+		if (is_numeric($_POST['more_rounds']) && !is_numeric($_POST['rounds']))
 			$rounds = $_POST['more_rounds'];
-		if ($_POST['flexible'] == 1 && is_numeric($_POST['story_length']))
-			$story_length = $_POST['story_length'];
-		if ($_POST['flexible'] == 1 && is_numeric($_POST['longer_story']))
-			$story_length = $_POST['longer_story'];
 		if ($rounds != 'null')
 			$current_round = 1;
 		if ($story_length != 'null')
 			$total_rows = 1;
 		if (isset($_SESSION['user_id']))
 			$user_id = $_SESSION['user_id'];
-		if (isset($_SESSION['guest_id']))
+		if (isset($_SESSION['guest_id']) && is_numeric($_SESSION['guest_id']))
 			$guest_id = $_SESSION['guest_id'];
 		if (!empty($story_length) && $_POST['nonsensmode'] == 0 || $_POST['nonsensmode'] == 1) {
 			$story = "INSERT INTO story";
-			$story .= " (title, max_rows, total_rows, rounds, current_round, close_at_midnight, max_writers, admin, flexible, nonsens_mode, with_group, published, views)";
-			$story .= " VALUES ('{$title}', '{$story_length}', '{$total_rows}', '{$rounds}', '{$current_round}', 1, {$_POST['max_writers']}, null, {$_POST['flexible']}, {$_POST['nonsensmode']}, null, 0, 0);";
+			$story .= " (title, total_rows, rounds, current_round, close_at_midnight, max_writers, nonsens_mode, with_group, status, started_by_user, views)";
+			$story .= " VALUES ('{$title}', 0, '{$rounds}', '{$current_round}', 1, {$_POST['max_writers']}, {$_POST['nonsensmode']}, null, 0, {$_SESSION['me']['id']}, 0);";
+
+			$story = sqlAction($story, $getLastId = true);
+
 			// echo $story;
-			if (sqlAction($story)) {
-				$story_id = sqlSelect("SELECT MAX(story_id) AS id FROM story");
+			// die;
+			if ($story) {
 				$row = "INSERT INTO row";
-				$row .= " (user_id, guest_id, words, story_id, date)";
-				$row .= " VALUES ({$user_id}, {$guest_id}, '{$_POST['text']}', {$story_id[0]['id']}, now());";
-				// echo $row;
+				$row .= " (user_id, words, story_id, date)";
+				$row .= " VALUES ({$_SESSION['me']['id']}, '{$_POST['text']}', {$story}, now());";
 				$story_writers = "INSERT INTO story_writers";
-				$story_writers .= " (story_id, user_id, guest_id, on_turn, round, is_typing, date)";
-				$story_writers .= " VALUES ({$story_id[0]['id']}, {$user_id}, {$guest_id}, 0, {$current_round}, 0, now());";
+				$story_writers .= " (story_id, user_id, on_turn, round, date)";
+				$story_writers .= " VALUES ({$story}, {$_SESSION['me']['id']}, 0, {$current_round}, now());";
+
+				// echo $row . '<br />' . $story_writers;
+				// die;
 
 				if (sqlAction($row) && sqlAction($story_writers)) {
 					if (!isset($_COOKIE['story']))
@@ -89,6 +96,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 								break;
 						}
 					}
+
+					require '../../../lib/Firebase/url.php';
+					getFirebase($require = true);
+
+					$firebase = new Firebase\FirebaseLib($url, $token);
+
+					$nonsens_mode = ($_POST['nonsensmode'] == 1) ? 'Yes' : 'No';
+
+					$firebaseArray = array(
+						'title' => "{$title}",
+						'opening_words' => "{$text}",
+						'writers' => 1,
+						'max_writers' => $_POST['max_writers'],
+						'nonsens_mode' => "{$nonsens_mode}",
+						'on_turn' => false
+					);
+					$firebase->set("stories/not_ready/{$story}/", $firebaseArray);
+
 					// if (!isset($_COOKIE['story_nr_1']))
 					// 	setcookie('story_nr_1', '1', time() + strtotime('today 23:59'));
 					// if (!isset($_COOKIE['story_nr_2']) && isset($_COOKIE['story_nr_1']))
@@ -103,11 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						'theme' => $translate['noty_message']['new_story_created']['theme'],
 						'timeout' => $translate['noty_message']['new_story_created']['timeout']
 						);
-					header('Location: ../write?story={$story_id[0]['id']}');
+					header("Location: ../../../write?not_ready&story={$story}");
 				}
 			}
-			// if (sqlAction("INSERT INTO story (title, max_rows, total_rows, rounds, current_round, max_writers, admin, flexible, nonsens_mode, with_group, published, views) VALUES ('{$title}', '{$story_length}', '{$total_rows}', '{$rounds}', '{$current_round}', null, '{$admin}', $flexible, $nonsens_mode, null, 0, 0);"))
-			// echo $story;
 		}
 	}
 	else {
@@ -119,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			'theme' => $translate['noty_message']['form_error']['theme'],
 			'timeout' => $translate['noty_message']['form_error']['timeout']
 			);
-		header('Location: ../?view=new_story');
+		header('Location: ../../../?view=new_story');
 	}
 
 }

@@ -5,3 +5,5 @@ $(window).load(function(){
     	window.history.back();
 	});
 });
+
+$('#hide').css('display', 'none');

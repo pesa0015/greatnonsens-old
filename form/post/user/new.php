@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 
 	else {
-		$user_exists = sqlSelect("SELECT username, email FROM (SELECT username FROM users WHERE username = '$user') A, (SELECT email FROM users WHERE email = '$email') B;");
+		$user_exists = sqlSelect("SELECT username, email FROM (SELECT username FROM users WHERE type = 1 AND username = '$user') A, (SELECT email FROM users WHERE email = '$email') B;");
 
 		if ($user_exists) {
 			if ($user_exists[0]['username']) {
@@ -87,23 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		else {
 			$password = password_hash($password, PASSWORD_DEFAULT);
 
-			require '../../../lib/Firebase/url.php';
-			getFirebase($require = true);
-
-			$firebase = new Firebase\FirebaseLib($url, $token);
-
-			$user_id = sqlAction("INSERT INTO users (facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key, theme) VALUES (null, '$user', '$password', '$email', now(), null, null, null, null);", $getLastId = true);
-
-			$firebaseArray = array(
-				'from' => 'false',
-				'group' => 'false',
-				'story' => 'false',
-				'time' => time(),
-				'type' => 'account_registered',
-				'unread' => 'false'
-				);
-
-			if ($user_id && $firebase->push(usersNewsFeed($user_id), $firebaseArray)) {
+			if (sqlAction("INSERT INTO users (type, facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key) VALUES (1, null, '$user', '$password', '$email', now(), null, null, null);")) {
 				$_SESSION['noty_message'] = array(
 					'text' => $translate['noty_message']['user_created']['text'],
 					'type' => $translate['noty_message']['user_created']['type'],

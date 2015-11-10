@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 
 	if (!empty($group_members)) {
-		$users_exists = sqlSelect("SELECT user_id, username FROM `users` WHERE user_id IN ({$group_members}) OR username IN ('{$group_members}');");
+		$users_exists = sqlSelect("SELECT user_id, username FROM `users` WHERE type = 1 AND user_id IN ({$group_members}) OR username IN ('{$group_members}');");
 
 		if (!$users_exists) {
 			if (strlen($group_members) >= 3)

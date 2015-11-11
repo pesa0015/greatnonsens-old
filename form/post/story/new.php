@@ -1,23 +1,23 @@
 <?php
 
-require '../../../lib/Firebase/url.php';
-getFirebase($require = true);
+// require '../../../lib/Firebase/url.php';
+// getFirebase($require = true);
 
-$firebase = new Firebase\FirebaseLib($url, $token);
+// $firebase = new Firebase\FirebaseLib($url, $token);
 
 // $started = json_decode($firebase->get("stories/started/58/"));
 
 // $firebaseArray = array('latest_words' => 'asdasda');
 
-$test = array(
-    "foo" => "bar",
-    "i_love" => "lamp",
-    "id" => 42
-);
+// $test = array(
+//     "foo" => "bar",
+//     "i_love" => "lamp",
+//     "id" => 42
+// );
 
-$firebase->set("/test/", $test);
+// $firebase->set("/test/", $test);
 
-header('Location: ../../../');
+// header('Location: ../../../');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 

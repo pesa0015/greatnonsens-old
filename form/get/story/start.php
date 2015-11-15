@@ -10,26 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 		$story = $_GET['story'];
 
-		$writer = sqlSelect("SELECT guest_id FROM story_writers WHERE story_id = {$story} and guest_id = {$_SESSION['guest_id']};");
-		if (empty($writer[0]['guest_id'])) {
-			if (sqlAction("INSERT INTO story_writers (story_id, user_id, guest_id, on_turn, round, date) VALUES ({$story}, null, {$_SESSION['guest_id']}, 0, 1, now());")) {
-				require '../../../lib/Firebase/url.php';
-				getFirebase($require = true);
+		require '../../../lib/Firebase/url.php';
+		getFirebase($require = true);
 
-				$firebase = new Firebase\FirebaseLib($url, $token);
+		$firebase = new Firebase\FirebaseLib($url, $token);
 
-				$increment_writers = $firebase->get("stories/not_ready/{$story}/writers") + 1;
+		$data = json_decode($firebase->get("stories/not_ready/{$story}/"));
 
-				$firebaseArray = array('writers' => $increment_writers);
+		$firebaseArray = array('current_round' => 1, 'latest_words' => $data->opening_words, 'on_turn' => $data->on_turn, 'title' => $data->title, 'total_rounds' => $data->total_rounds);
 
-				$firebase->update("stories/not_ready/{$story}/", $firebaseArray);
+		$firebase->delete("stories/not_ready/{$story}/");
 
-				header("Location: ../../../write?not_ready&story={$story}");
-			}
-		}
-		else {
-			header("Location: ../../../write?not_ready&story={$story}");
-		}
+		$firebase->set("stories/started/{$story}/", $firebaseArray);
+
+		header("Location: ../../../write?story={$story}");
 	}
 }
 

@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
 			// $decrease_writers = $firebase->get("stories/not_ready/{$story}/writers") - 1;
 
-			$story = json_decode($firebase->get("stories/not_ready/{$story}/"));
+			$data = json_decode($firebase->get("stories/not_ready/{$story}/"));
 
-			$decrease_writers = $story->writers - 1;
+			$decrease_writers = $data->writers - 1;
 
-			if (is_numeric($story->on_turn) && $story->on_turn->user_id == $_SESSION['me']['id'])
+			if (is_numeric($data->on_turn) && $data->on_turn->user_id == $_SESSION['me']['id'])
 				$firebaseArray = array('writers' => $decrease_writers, 'on_turn' => false);
 			else
 				$firebaseArray = array('writers' => $decrease_writers);

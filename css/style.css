@@ -33,6 +33,10 @@ input {
 #news {
 	padding: 0px;
 }
+#nonsens_mode_question {
+	font-size: 1.5em;
+    margin-bottom: 15px;
+}
 .unread-true {
 	background: #CBF0F9;
 }

@@ -2,7 +2,8 @@
       <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+        <a href="/" class="close">×</a>
         <h4 class="modal-title">Skapa en story</h4>
       </div>
       <div class="modal-body">
@@ -10,7 +11,7 @@
           <div class="row">
             <div class="col-xs-8">
               <div class="form-group<?=(isset($_SESSION['errors']['story_title'])) ? ' has-error' : ''; ?>">
-                <label for="story_title" class="control-label"><h5>Arbetsnamn<?=(isset($_SESSION['errors']['story_title'])) ? ' saknas' : ''; ?>:</h5></label>
+                <label for="story_title" class="control-label"><h5>Titel/arbetsnamn<?=(isset($_SESSION['errors']['story_title'])) ? ' saknas' : ''; ?>:</h5></label>
                 <input type="text" name="story_title" class="form-control" autofocus>
               </div>
             </div>
@@ -90,7 +91,7 @@
           <div class="row">
             <div class="col-xs-8">
               <div class="form-group">
-                <h5>Nonsensläge:</h5>
+                <h5>Nonsensläge: <span id="nonsens_mode_question" class="ion-help-circled float-right" data-toggle="tooltip" data-placement="top" data-original-title="Nonsensläge innebär att endast den senaste meningen kommer att synas för den som står på tur. Annars syns alla tidigare meningar."></span></h5>
                 <div class="radio">
                   <label><input type="radio" name="nonsensmode" id="optionsRadios2" value="1" checked="">Ja</label>
                 </div>

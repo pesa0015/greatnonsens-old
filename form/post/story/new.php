@@ -129,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						'writers' => 1,
 						'max_writers' => $_POST['max_writers'],
 						'nonsens_mode' => "{$nonsens_mode}",
+						'total_rounds' => $rounds,
 						'on_turn' => false
 					);
 					$firebase->set("stories/not_ready/{$story}/", $firebaseArray);

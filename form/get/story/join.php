@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 				// 	$firebaseArray = array('writers' => $increment_writers, 'on_turn' => array('user' => false, 'guest' => false));
 
 				if ($on_turn == 1)
-					$firebaseArray = array('writers' => $increment_writers, 'on_turn' => array('user_id' => $_SESSION['me']['id'], 'user_name' => "{$_SESSION['me']['name']}"));
+					$firebaseArray = array('writers' => $increment_writers, 'on_turn' => array('user_id' => (int) $_SESSION['me']['id'], 'user_name' => "{$_SESSION['me']['name']}"));
 				else
 					$firebaseArray = array('writers' => $increment_writers);
 

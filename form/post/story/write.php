@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// if (!$user_id) $insert1 .= "(null, {$guest_id}, ";
 		// if (!$guest_id) $insert1 .= "({$user_id}, null, ";
 		// $insert1 .= "'{$words}', {$_POST['story']}, now());";
-		$insert2 = "UPDATE `story_writers` SET `on_turn` = 1, `date` = now() WHERE `id` IN (SELECT MIN(id) FROM (SELECT * FROM `story_writers`) AS id WHERE story_id = {$_POST['story']} AND on_turn = 0 ORDER BY date);";
+		// $insert2 = "UPDATE `story_writers` SET `on_turn` = 1, `date` = now() WHERE `id` IN (SELECT MIN(id) FROM (SELECT * FROM `story_writers`) AS id WHERE story_id = {$_POST['story']} AND on_turn = 0 ORDER BY date);";
+		$insert2 = "UPDATE `story_writers` SET `on_turn` = 1, `date` = now() WHERE `id` IN (SELECT id FROM `story_writers` WHERE story_id = {$_POST['story']} AND id = (SELECT id FROM story_writers WHERE story_id = {$_POST['story']} AND on_turn = 1) + 1 ORDER BY id);";
 		$insert3 = "UPDATE `story_writers` SET `on_turn` = 0, round = round + 1, `date` = now() WHERE story_id = {$_POST['story']} AND user_id = {$_SESSION['me']['id']};";
 		// if (!$user_id) $insert3 .= "user_id IS NULL AND guest_id = {$guest_id};";
 		// if (!$guest_id) $insert3 .= "user_id = {$_SESSION['user']['id']} AND guest_id IS NULL;";

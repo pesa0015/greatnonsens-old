@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					}
 				}
 				else {
-					$next = sqlSelect("SELECT users.user_id, users.username, FROM users INNER JOIN `story_writers` ON users.user_id = story_writers.user_id WHERE story_writers.story_id = {$_POST['story']} AND on_turn = 1;");
+					$next = sqlSelect("SELECT users.user_id, users.username FROM users INNER JOIN `story_writers` ON users.user_id = story_writers.user_id WHERE story_writers.story_id = {$_POST['story']} AND on_turn = 1;");
 // 					$next =  sqlSelect("SELECT 
 // CASE users.user_id WHEN NULL THEN story_writers.guest_id ELSE users.user_id END AS user_id, 
 // CASE users.username WHEN NULL THEN story_writers.guest_id ELSE users.username END AS username, 

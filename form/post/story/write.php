@@ -85,9 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					// }
 					if (!empty($next)) {
 						$firebaseArray = array(
-							'current_round' => $round[0]['current_round'],
+							'current_round' => (int) $round[0]['current_round'],
 							'latest_words' => "{$words}",
-							'on_turn' => array('user_id' => $next[0]['user_id'], 'user_name' => "{$next[0]['username']}")
+							'on_turn' => array('user_id' => (int) $next[0]['user_id'], 'user_name' => "{$next[0]['username']}")
 						);
 						$firebase->update("stories/started/{$_POST['story']}/", $firebaseArray);
 						header("Location: ../../../write?story={$_POST['story']}");

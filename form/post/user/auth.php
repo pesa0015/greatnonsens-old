@@ -16,9 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['login'] = array();
 
 	if (!$user_exists) {
-		array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
-		$_SESSION['login']['user'] = $user;
-		header('Location: ../../../login');
+		if (isset($_POST['mobile'])) {
+			echo 'Fel användarnamn';
+			die;
+		}
+		else {
+			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
+			$_SESSION['login']['user'] = $user;
+			header('Location: ../../../login');
+		}
 	}
 
 	else {
@@ -30,16 +36,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$_SESSION['user']['id'] = $user_exists[0]['user_id'];
 			$_SESSION['user']['name'] = $user_exists[0]['username'];
 
-			unset($_SESSION['login']);
+			if (isset($_POST['mobile'])) {
+				echo json_encode($_SESSION['user']);
+				die;
+			}
+			else {
+				unset($_SESSION['login']);
 
-			header('Location: ../../../');
+				header('Location: ../../../');
+			}
 		}
 
 		else {
-			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Fel lösenord");
-			$_SESSION['login']['user'] = $user;
-			$_SESSION['login']['password'] = $password;
-			header('Location: ../../../login');
+			if (isset($_POST['mobile'])) {
+				echo 'Fel lösenord';
+				die;
+			}
+			else {
+				array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Fel lösenord");
+				$_SESSION['login']['user'] = $user;
+				$_SESSION['login']['password'] = $password;
+				header('Location: ../../../login');
+			}
 		}
 	}
 }

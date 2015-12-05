@@ -36,9 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			// $_SESSION['user'] = array();
 
 			if (isset($_POST['mobile'])) {
-				$user['user']['id'] = $user_exists[0]['user_id'];
-				$user['user']['name'] = $user_exists[0]['username'];
-				echo json_encode($user['user']);
+				$data['user']['id'] = $user_exists[0]['user_id'];
+				$data['user']['name'] = $user_exists[0]['username'];
+				echo json_encode($data['user']);
 				die;
 			}
 			else {

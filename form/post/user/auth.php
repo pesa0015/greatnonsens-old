@@ -2,6 +2,8 @@
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+	header('Access-Control-Allow-Origin: *');
+
 	session_start();
 
 	require '../../../mysql/query.php';
@@ -33,14 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (password_verify($password, $pwd)) {
 			// $_SESSION['user'] = array();
 
-			$_SESSION['user']['id'] = $user_exists[0]['user_id'];
-			$_SESSION['user']['name'] = $user_exists[0]['username'];
-
 			if (isset($_POST['mobile'])) {
-				echo json_encode($_SESSION['user']);
+				$user['user']['id'] = $user_exists[0]['user_id'];
+				$user['user']['name'] = $user_exists[0]['username'];
+				echo json_encode($user['user']);
 				die;
 			}
 			else {
+				$_SESSION['user']['id'] = $user_exists[0]['user_id'];
+				$_SESSION['user']['name'] = $user_exists[0]['username'];
+
 				unset($_SESSION['login']);
 
 				header('Location: ../../../');

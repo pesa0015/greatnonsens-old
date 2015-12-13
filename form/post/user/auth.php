@@ -2,8 +2,6 @@
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-	header('Access-Control-Allow-Origin: *');
-
 	session_start();
 
 	require '../../../mysql/query.php';
@@ -18,50 +16,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['login'] = array();
 
 	if (!$user_exists) {
-		if (isset($_POST['mobile'])) {
-			echo 'Fel användarnamn';
-			die;
-		}
-		else {
-			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
-			$_SESSION['login']['user'] = $user;
-			header('Location: ../../../login');
-		}
+		array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
+		$_SESSION['login']['user'] = $user;
+		header('Location: ../../../login');
 	}
 
 	else {
 		$pwd = $user_exists[0]['password'];
 
 		if (password_verify($password, $pwd)) {
-			// $_SESSION['user'] = array();
 
-			if (isset($_POST['mobile'])) {
-				$data['user']['id'] = $user_exists[0]['user_id'];
-				$data['user']['name'] = $user_exists[0]['username'];
-				echo json_encode($data['user']);
-				die;
-			}
-			else {
-				$_SESSION['user']['id'] = $user_exists[0]['user_id'];
-				$_SESSION['user']['name'] = $user_exists[0]['username'];
+			$_SESSION['user']['id'] = $user_exists[0]['user_id'];
+			$_SESSION['user']['name'] = $user_exists[0]['username'];
 
-				unset($_SESSION['login']);
+			unset($_SESSION['login']);
 
-				header('Location: ../../../');
-			}
+			header('Location: ../../../');
 		}
 
 		else {
-			if (isset($_POST['mobile'])) {
-				echo 'Fel lösenord';
-				die;
-			}
-			else {
-				array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Fel lösenord");
-				$_SESSION['login']['user'] = $user;
-				$_SESSION['login']['password'] = $password;
-				header('Location: ../../../login');
-			}
+			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Fel lösenord");
+			$_SESSION['login']['user'] = $user;
+			$_SESSION['login']['password'] = $password;
+			header('Location: ../../../login');
 		}
 	}
 }

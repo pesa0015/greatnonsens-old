@@ -2,6 +2,10 @@
 
 require 'mysql/query.php';
 
+if (!isset($_COOKIE['cookie_information'])) {
+    setcookie('cookie_information', true, time()+31556926);
+}
+
 if (!isset($_COOKIE['guest_id'])) {
     $guest_id = sqlAction("INSERT INTO users (type, facebook_id, username, password, email, registration_date, profile_img, personal_text, reset_password_key) VALUES (0, null, 'Guest', null, null, now(), null, null, null);", $getLastId = true);
     if (is_numeric($guest_id)) {
@@ -10,6 +14,7 @@ if (!isset($_COOKIE['guest_id'])) {
         $_SESSION['me']['id'] = $guest_id;
         $_SESSION['me']['name'] = 'Guest';
         setcookie('guest_id', $guest_id, strtotime('today 23:59'));
+        $saveGuest = true;
     }
 }
 

@@ -2,11 +2,62 @@
 
 session_start();
 
-if (isset($_SESSION['user'])) {
-
 header('Content-Type: application/javascript');
 
-?>
+if (isset($_SESSION['me']['id'])) { ?>
+$.getScript('js/my_stories.php');
+// $('#welcome').fadeOut(1500);
+// $('#go').delay(1500).fadeIn(500);
+var toggleMenu = document.getElementById('toggle-menu');
+var menu = document.getElementById('nav');
+var content = document.getElementById('content');
+var closeCookieInfo = document.getElementById('close-cookie-info');
+var closeMenu = document.getElementById('hide-menu');
+/*toggleMenu.addEventListener('click', function() {
+	if (toggleMenu.className === 'ion-navicon') {
+		// toggleMenu.className = 'ion-arrow-up-b';
+		$(toggleMenu).fadeOut();
+		$(closeMenu).fadeIn();
+		menu.style.display = 'block';
+		content.style.display = 'none';
+	}
+	else {
+		// toggleMenu.className = 'ion-navicon';
+		$(toggleMenu).fadeIn();
+		$(closeMenu).fadeOut();
+		menu.style.display = 'none';
+		content.style.display = 'block';
+	}			
+});
+*/
+$(toggleMenu).click(function() {
+	// $(menu).css('display', 'block');
+	$(content).fadeOut(50);
+	$(menu).delay(50).fadeIn();
+	// $(content).css('display', 'none');
+	$(toggleMenu).fadeOut(100);
+	$(closeMenu).delay(100).fadeIn();	
+});
+$(closeMenu).click(function() {
+	// $(menu).css('display', 'none');
+	// $(content).css('display', 'block');
+	$(menu).fadeOut(50);
+	$(content).delay(50).fadeIn();
+	$(closeMenu).fadeOut(100);
+	$(toggleMenu).delay(100).fadeIn();	
+});
+closeCookieInfo.onmouseover = function() {
+	closeCookieInfo.className = 'ion-ios-close';	
+}
+closeCookieInfo.onmouseout = function() {
+	closeCookieInfo.className = 'ion-ios-close-outline';
+}
+$(closeCookieInfo).click(function(){
+    $('#login-signup-cookies-area').slideUp();
+});
+<?php }
+
+if (isset($_SESSION['user'])) { ?>
 var news = greatnonsens.child('users/<?=$_SESSION['user']['id']; ?>/news_feed/');
 
 var read = document.getElementById('newsitem_read');

@@ -26,7 +26,6 @@ if (isset($_SESSION['user']))
 	<title>Great nonsens</title>
 
 	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
-	
 	<!-- Bootstrap itself -->
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -43,69 +42,43 @@ if (isset($_SESSION['user']))
 
 <!-- use "theme-invert" class on bright backgrounds, also try "text-shadows" class -->
 <body class="theme-invert">
-<header>
-	<h1><a href="/">&lt;?&gt;</a></h1>
-	<?php if (isset($_SESSION['user'])): ?>
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav">
-	      	<li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sök <span class="caret"></span></a>
-	          <ul class="dropdown-menu" role="menu">
-	            <li><a href="search?after=group">Grupp</a></li>
-	            <li><a href="search?after=user">Spelare</a></li>
-	          </ul>
-	        </li>
-	      	<li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Grupper <span class="caret"></span></a>
-	          <ul class="dropdown-menu" role="menu">
-	            <li><a href="groups?view=new">Skapa ny grupp</a></li>
-	            <li><a href="groups?view=invites">Inbjudan</a></li>
-	            <?php if ($groups): ?>
-	            <li class="divider"></li>
-	            <?php foreach ($groups as $group): ?>
-	            <li><a href="groups?view=<?=$group['id']; ?>"><?=$group['name']; ?></a></li>
-	        	<?php endforeach; ?>
-	        	<li class="divider"></li>
-	        	<?php endif; ?>
-	            <li><a href="groups?view=my_groups">Mer</a></li>
-	          </ul>
-	        </li>
-	        <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><?=$_SESSION['user']['name']; ?> <span class="caret"></span></a>
-	          <ul class="dropdown-menu" role="menu">
-	            <li><a href="profile?view=<?=$_SESSION['user']['id']; ?>">Profil</a></li>
-	            <li><a href="profile?view=friends">Vänner</a></li>
-	            <li><a href="profile?view=change_password">Byt lösenord</a></li>
-	          </ul>
-	        </li>
-	        <li id="is_news" class="dropdown">
-	        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Händelser <span id="num_of_news" class="badge"></span></a>
-	        	<script>if (localStorage.getItem('news') === null || isNaN(localStorage.news)) { localStorage.news = 0; }if (localStorage.getItem('lastNewsItem') === null) { localStorage.lastNewsItem = ''; }var num_of_news = document.getElementById('num_of_news');if (localStorage.news == 0) { num_of_news.style.display = 'none'; } else { num_of_news.innerHTML = localStorage.news; }</script>
-	          <ul id="news" class="dropdown-menu" role="menu">
-	            <li id="newsitem_read">Markera alla som lästa</li>
-	          </ul>
-	        </li>
-	        <li><a href="logout">Logga ut</a></li>
-	      </ul>
-	    </div>
-	  </div>
+	<div id="wrapper">
+	<?php if (isset($_COOKIE['cookie_information'])): ?>
+	<div id="login-signup-cookies-area">
+		<form action="form/post/user/auth" method="post" id="login-form">
+			<span>Användarnamn: </span>
+			<input type="text" name="user" autofocus>
+			<span>Lösenord: </span>
+			<input type="password" name="password">
+			<input type="submit" name="login" value="Logga in" style="padding-bottom: 1px; margin-right: 10px;">
+		</form>
+		<span style="margin-right: 10px;"> | </span>
+		<a href="signup">Registrera</a>
+		<span style="margin-left: 10px; margin-right: 10px;"> | </span>
+		<span><a href="">Great nonsens använder cookies</a></span>
+		<span style="margin-left: 10px; margin-right: 10px;"> | </span>
+		<span id="close-cookie-info" class="ion-ios-close-outline" style="font-size: 20px; vertical-align: middle;"></span>
+	</div>
+	<?php endif; ?>
+	<header>
+		<a href="http://localhost:8888/great_nonsens-v.12/" id="logo"><img src="assets/images/magic.png" style="width:35px;" alt=""></a>
+		<span id="toggle-menu" class="ion-navicon"></span>
+		<span id="hide-menu" class="ion-arrow-up-b" style="display: none;"></span>
+	</header>
+	<nav id="nav" style="display: none;">
+		<?php if (isset($_SESSION['user'])): ?>
+		<ul style="float: left; margin-left: 20px; margin-right: 100px;">
+			<li><a href="logout">Logga ut</a></li>
+		</ul>
+		<?php else: ?>
+		<ul style="float: left; margin-left: 20px; margin-right: 100px;">
+			<li><a href="login">Logga in</a></li>
+			<li><a href="signup">Registrera</a></li>
+		</ul>
+		<ul>
+			<li><a href="">Om Great nonsens</a></li>
+			<li><a href="">Användning av cookies</a></li>
+		</ul>
+		<?php endif; ?>
 	</nav>
-<?php else: ?>
-	<nav class="mainmenu" id="hide">
-		<div class="container">
-			<div class="dropdown">
-				<button type="button" class="navbar-toggle" data-toggle="dropdown"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-				<!-- <a data-toggle="dropdown" href="#">Dropdown trigger</a> -->
-				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-					<li><a href="signup">Registrera</a></li>
-				</ul>
-			</div>
-			<form action="form/post/user/auth.php" method="post">
-				<input type="text" name="user" placeholder="Användarnamn"><input type="password" name="password" placeholder="Lösenord"><input type="submit" name="submit" value="Logga in">
-			</form>
-		</div>
-	</nav>
-<?php endif; ?>
-</header>
+	<div id="content">

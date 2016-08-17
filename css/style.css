@@ -1,18 +1,141 @@
-header {
-	color: grey;
-	width: 100%;
-	height: 50px;
-	text-align: center;
+body {
+	margin-bottom: 100px;
 }
-form {
-	width: 500px;
+#wrapper {
+	width: 968px;
 	margin: auto;
 }
-input {
+header {
+	margin: 15px auto;
+	padding: 15px;
+	border-bottom: 1px solid #868686;
+}
+#login-signup-cookies-area {
+	border-bottom: 1px solid #C0C0C0;
+	padding-bottom: 15px;
+	margin: 15px auto;
+}
+#login-form {
+	display: inline;
+}
+#logo {
+	font-size: 34px;
+}
+#toggle-menu, #hide-menu {
+	float: right;
+	font-size: 44px;
+}
+#nav ul {
+	list-style: none;
+	padding: 0px;
+}
+#welcome h1 {
+	font-size: 105px;
+}
+.welcome {
+	/*text-align: center;*/
+	margin-top: 100px;
+}
+#start {
+	margin-top: 135px;
+}
+.button {
+	background: transparent;
+	font-size: 20px;
+	color: #000000;
+	padding: 15px;
+	border: none;
+	border-bottom: 5px solid #FFFFFF;
+	display: block;
+	outline: 0px;
+	/*transition: 0.1s;*/
+}
+#createStoryModal {
+	background: #FFFFFF;
+	height: 100%;
+	overflow-y: scroll;
+}
+#createStoryModal form {
+	margin: 30px;
+}
+button#new-story:hover, button#choose-story:hover {
+	color: #FFFFFF;
+	/*border-bottom: 3px solid #000000;*/
+	/*background: #FFFFFF;*/
+	/*font-weight: 700;*/
+} 
+button#new-story:hover .ion-forward, button#choose-story:hover .ion-edit {
+	color: #FFFFFF;
+}
+/*button#new-story:hover, button#choose-story:hover {
+	text-decoration: none;
+}*/
+#border {
+	border-bottom: 3px solid #000000;
+	width: 150px;
+	padding-top: 5px;
+}
+#steps {
+	display: block;
+}
+#steps span {
+    /*display: block;
+    border: 3px solid #ff5e3c;*/
+    /*border-radius: 100%;*/
+    /*box-sizing: border-box;
+    -moz-box-sizing: border-box;*/
+    /*width: 35px;*/
+    /*height: 35px;*/
+    /*background: #ff5e3c;*/
+    /*background: #000000;*/
+    /*color: #fff;*/
+    /*color: #FFFFFF;*/
+    color: #000000;
+    /*font-size: 0.6em;*/
+    /*line-height: 1em;*/
+    font-weight: 700;
+    padding: 7px 10px 7px 10px;
+    text-align: center;
+    margin: -1.4em 1em 0 0;
+    text-transform: uppercase;
+    /*float: left;*/
+    border-bottom: 3px solid #000000;
+}
+/*.input-with-dark-border {
+	background: #FFFFFF;
+}*/
+/*.step {
+	display: none;
+}*/
+/*form {
+	width: 500px;
+	margin: auto;
+}*/
+#go {
+	background: rgba(111,131,146, 0.5);
+    padding: 35px;
+}
+form#login-form input {
 	background: transparent;
 	border: none;
-	border-bottom: 1px solid silver;
-	margin-right: 10px;
+	/*border-bottom: 1px solid silver;
+	margin-right: 10px;*/
+}
+form#create-story p {
+	font-size: 35px;
+}
+form#create-story input[type=text], #opening-words {
+	margin: 25px 0px 45px 0px;
+	width: 500px;
+}
+form#create-story .radio {
+	margin: 25px 0px 25px 0px;
+}
+form#create-story input[type=submit] {
+	outline: 0px;
+}
+input:focus {
+	outline: 0px;
 }
 .radio label, .checkbox label {
 	float: left;
@@ -60,11 +183,43 @@ input {
 .light {
 	font-weight: 200;
 }
+#my-stories-section {
+	background: #5bc0de;
+	color: #FFFFFF;
+	padding: 1px 0px 25px 0px;
+}
+#my-stories-dropdown {
+	position: inherit;
+    float: none;
+    background: transparent;
+    -webkit-box-shadow: none;
+    border: none;
+}
+.my-story, 
+.table-striped>tbody>tr:nth-child(odd)>td.my-story, 
+.table>thead>tr>th, 
+.table>tbody>tr>th, 
+.table>tfoot>tr>th, 
+.table>thead>tr>td, 
+.table>tbody>tr>td, 
+.table>tfoot>tr>td {
+	background: #5bc0de;
+	border-top: none;
+	border-left: 1px solid #FFFFFF;
+	text-align: left;
+}
+.md-content {
+	background: #FFFFFF;
+	color: #000000;
+}
 
 @media (min-width: 768px) {
 	nav li.dropdown:hover > .dropdown-menu {
 	    display: block;
-	  }
+	}
+	/*#a #b #c:hover > body {
+		display: none;
+	}*/
 	.navbar {
 		background: transparent;
 		border: none;

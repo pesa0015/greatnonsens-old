@@ -2,7 +2,9 @@
 
 session_start();
 
-require 'header.php';
+$loginPage = true;
+
+require 'layout/header.php';
 
 ?>
 

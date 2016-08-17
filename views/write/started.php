@@ -1,14 +1,10 @@
-<div id="spin"></div>
-<section class="section" id="head">
-	<div class="container">
-
-		<div class="row">
-			<div id="content" class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
-				<div id="write"></div>
-				<div id="read"></div>
-				<div id="wait"></div>
-			</div> <!-- /col -->
-		</div> <!-- /row -->
-	
-	</div>
-</section>
+<div id="content">
+	<h1 id="story-title"><?=$_POST['title']; ?></h1>
+	<p id="text"><?=$_POST['text']; ?></p>
+	<?php if ($_POST['my_turn'] == 1): ?>
+	<form action="form/post/story/write" id="story-form" method="post">
+		<textarea id="app" class="form-control" name="words" rows="5" cols="50" placeholder="Skriv något..."></textarea><br/>
+		<input type="submit" name="send" id="send" class="btn btn-success" value="Skicka">
+	</form>
+	<?php endif; ?>
+</div>

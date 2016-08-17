@@ -7,6 +7,7 @@ session_start();
 header('Content-Type: application/javascript');
 
 ?>
+// $.getScript('js/my_stories.js');
 $.fn.center = function () {
 	this.css("position","absolute");
 	this.css("top", ( $(window).height() - this.height() ) / 2  + "px");

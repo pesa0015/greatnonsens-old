@@ -5,7 +5,7 @@
 		<script src="assets/js/bootstrap.min.js"></script>
 		<!--<script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>-->
 		<script src="assets/js/firebase.js"></script>
-		<script src="js/firebase_url.js"></script>
+		<script src="js/firebase_config.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
 		<script src="assets/js/jquery.noty.packaged.min.js"></script>
 		<script src="assets/js/jquery.timeago.js"></script>

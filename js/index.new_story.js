@@ -47,7 +47,7 @@ createStoryForm.addEventListener('submit', function() {
 	    	var story = JSON.parse(xhttp.responseText).story_id;
 	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
 	    	newStory.set({'waiting': true});
-	    	window.location.replace('write/' + story);
+	    	window.location.replace('write?story=' + story);
 	    }
 	}
 	xhttp.open('POST', 'form/post/story/new', true);

@@ -7,7 +7,7 @@ $story = (int)$_GET['story'];
 
 session_start();
 
-$baseHref = '../';
+// $baseHref = '../';
 
 require 'layout/header.php';
 

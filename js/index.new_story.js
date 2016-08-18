@@ -43,6 +43,7 @@ createStoryForm.addEventListener('submit', function() {
 	document.querySelector('input[name="public"]:checked')];
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
+	    	console.log(xhttp.responseText);
 	    	var story = parseInt(JSON.parse(xhttp.responseText)[0].story_id);
 	    	// var me = parseInt(JSON.parse(xhttp.responseText)[0].me);
 	    	var firebase = firebase.datebase().ref('stories/not_ready/' + story);
@@ -62,6 +63,7 @@ var tableContent = $('tbody');
 function getStories() {
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
+	    	console.log(xhttp.responseText);
 	    	var stories = JSON.parse(xhttp.responseText);
 	    	if (stories.length > 0) {
 	    		$(tableContent).empty();

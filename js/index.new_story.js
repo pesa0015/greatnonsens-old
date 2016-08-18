@@ -43,6 +43,7 @@ createStoryForm.addEventListener('submit', function() {
 	document.querySelector('input[name="public"]:checked')];
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
+	    	console.log(xhttp.responseText);
 	    	var story = JSON.parse(xhttp.responseText).story_id;
 	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
 	    	newStory.set({'waiting': true});

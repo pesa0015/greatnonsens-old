@@ -43,13 +43,9 @@ createStoryForm.addEventListener('submit', function() {
 	document.querySelector('input[name="public"]:checked')];
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	console.log(xhttp.responseText);
-	    	var story = parseInt(JSON.parse(xhttp.responseText)[0].story_id);
-	    	// var me = parseInt(JSON.parse(xhttp.responseText)[0].me);
-	    	var firebase = firebase.datebase().ref('stories/not_ready/' + story);
-	    	// firebase.set({'title':input[0].value,'opening_words':input[1].value,'writers':1,'max_writers':input[4].value,'nonsens_mode':input[3].value,'on_turn':false});
-	    	// firebase.push({'user_id': me});
-	    	firebase.set({'waiting': true});
+	    	var story = JSON.parse(xhttp.responseText).story_id;
+	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
+	    	newStory.set({'waiting': true});
 	    	window.location.replace('write/' + story);
 	    }
 	}
@@ -63,6 +59,8 @@ var tableContent = $('tbody');
 function getStories() {
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
+	    	if (xhttp.responseText === '')
+	    		return;
 	    	console.log(xhttp.responseText);
 	    	var stories = JSON.parse(xhttp.responseText);
 	    	if (stories.length > 0) {

@@ -64,7 +64,7 @@ if (isset($_SESSION['user']))
 	</div>
 	<?php endif; ?>
 	<header>
-		<a href="http://localhost:8888/great_nonsens-v.12/" id="logo"><img src="assets/images/g.png" style="width:35px;" alt=""></a>
+		<a href="/" id="logo"><img src="assets/images/g.png" style="width:35px;" alt=""></a>
 		<span id="toggle-menu" class="ion-navicon"></span>
 		<span id="hide-menu" class="ion-arrow-up-b" style="display: none;"></span>
 	</header>

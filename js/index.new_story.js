@@ -46,7 +46,7 @@ createStoryForm.addEventListener('submit', function() {
 	    	console.log(xhttp.responseText);
 	    	var story = JSON.parse(xhttp.responseText).story_id;
 	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
-	    	newStory.set({'waiting': true});
+	    	newStory.set({'writers': 1, 'waiting': true});
 	    	window.location.replace('write?story=' + story);
 	    }
 	}
@@ -93,6 +93,10 @@ function joinStory(e) {
 				not_ready.remove();
 	    	}
 	    	if (status == 1) {
+	    		var writers = firebase.database().ref('stories/not_ready/' + storyId);
+	    		writers.once('value' function(dataSnapshot) {
+	    			writers.update({'writers': dataSnapshot.val().writers+1});
+	    		});
 	    		keepTheWritersUpdated();
 	    	}
 	    	window.location.replace('write/' + storyId);

@@ -99,7 +99,7 @@ function joinStory(e) {
 	    		});
 	    		keepTheWritersUpdated();
 	    	}
-	    	window.location.replace('write/' + storyId);
+	    	window.location.replace('write?story=' + storyId);
 	    }
 	}
 	xhttp.open('POST', 'form/post/story/join', true);

@@ -87,6 +87,10 @@ function joinStory(e) {
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	var status = parseInt(xhttp.responseText);
+	    	if (status != 1 || status != 2) {
+	    		console.log(xhttp.responseText);
+	    		return;
+	    	}
 	    	// Max writers reached, story started
 	    	if (status == 2) {
 	    		var not_ready = firebase.database().ref('stories/not_ready/' + storyId);

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$joinStory = null;
 			if ($writers[0]['num_of_writers'] == 1) {
 				// $on_turn = sqlSelect("SELECT user_id FROM story_writers WHERE story_id = {$story} AND on_turn = 1;");
-				$joinStory = "INSERT INTO story_writers (story_id, user_id, on_turn, round, date) VALUES ({$story}, {$_SESSION['me']['id']}, 1, 1, now());"
+				$joinStory = "INSERT INTO story_writers (story_id, user_id, on_turn, round, date) VALUES ({$story}, {$_SESSION['me']['id']}, 1, 1, now());";
 			}
 			else {
 				$joinStory = "INSERT INTO story_writers (story_id, user_id, on_turn, round, date) VALUES ({$story}, {$_SESSION['me']['id']}, 0, 1, now());";

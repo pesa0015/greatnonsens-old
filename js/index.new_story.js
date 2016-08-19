@@ -87,7 +87,7 @@ function joinStory(e) {
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	var status = parseInt(xhttp.responseText);
-	    	if (status != 1 || status != 2) {
+	    	if (status != 1 && status != 2) {
 	    		console.log(xhttp.responseText);
 	    		return;
 	    	}

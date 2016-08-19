@@ -94,7 +94,7 @@ function joinStory(e) {
 	    	}
 	    	if (status == 1) {
 	    		var writers = firebase.database().ref('stories/not_ready/' + storyId);
-	    		writers.once('value' function(dataSnapshot) {
+	    		writers.once('value', function(dataSnapshot) {
 	    			writers.update({'writers': dataSnapshot.val().writers+1});
 	    		});
 	    		keepTheWritersUpdated();

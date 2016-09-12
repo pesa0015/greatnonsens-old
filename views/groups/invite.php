@@ -1,25 +1,19 @@
-<section class="section" id="head">
-	<div class="container">
+<?php
 
-		<div class="row">
-			<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">	
+				// $admin = sqlSelect("SELECT admin FROM `group_members` WHERE group_id = {$groupId} AND user_id = {$_SESSION['user']['id']};");
 
-				<?php
-
-				$admin = sqlSelect("SELECT admin FROM `group_members` WHERE group_id = {$_GET['view']} AND user_id = {$_SESSION['user']['id']};");
-
-				if ($admin[0]['admin'] != 1): ?>
+				if ($member[0]['admin'] != 1): ?>
 					<h3>Du är inte admin och har inte behörighet till den här sidan.</h3>
 				<?php else: ?>
 
-					<div class="col-md-6">
-						<?php require 'form/show_errors.php'; ?>
-						<form action="form/post/group/invite_members" method="post">
-							<input type="hidden" name="group_id" value="<?=$_GET['view']; ?>">
+					
+						
+						<form action="" method="post" onsubmit="inviteGroupMembers(event);">
+							<input type="hidden" name="group_id" value="<?=$groupId; ?>">
 							<textarea id="select2_family" name="group_members" placeholder="Medlemmar" style="width: 300px;"></textarea>
 							<input type="submit" class="btn btn-success" value="Bjud in">
 						</form>
-					</div>
+						<div id="success" class="success"><img src="assets/images/smileys/joy.png" alt=""><span class="success_text">Inbjudan har skickats.</span><span class="remove-result-box" onclick="$(this).parent().fadeOut(500);">Stäng</span></div>
 					<?php endif; ?>
 	
 			</div> <!-- /col -->

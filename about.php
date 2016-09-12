@@ -1,0 +1,5 @@
+<?php require 'layout/header.php'; ?>
+<h1>Great nonsens - Stafettskrivning</h1>
+<p>Skriv några ord och nästa person fortsätter. Till slut blir det en galen och/eller fantastisk berättelse eller helt enkelt bara ren nonsens utan någon som helst röd tråd. Men oavsett vilket: Great nonsens låter dig släppa loss fantasin och skriva berättelser som du annars aldrig vågat, kunnat eller tänkt på att skriva.</p>
+<p>Syftet med Great nonsens är att förenkla stafettskrivning och göra det möjligt för människor att skriva berättelser som de annars aldrig hade skrivit. Många personer drömmer om just det, att skriva, helst en bok. Även om det på direkten inte blir en roman av en stafettskrivning (men det kan det faktiskt bli) kan det ändå öppna nya dörrar för många och låta fantasin flöda, något som kan vara svårt i det inrutade vardagslivet.</p>
+<?php require 'footer.php'; ?>

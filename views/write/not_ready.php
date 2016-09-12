@@ -1,9 +1,17 @@
-<div id="story-id" data-story="<?=$_GET['story']; ?>"></div>
-<div id="content">
-	<?php if (empty($writer)): ?>
+
+<?php if (empty($writer)): ?>
 	<h1>Den här berättelsen har avbrutits.</h1>
 	<?php else: ?>
-		<input type="hidden" id="me" value="<?=$_SESSION['me']['id']; ?>">
+	<?php if ($status[0]['join_public'] == 0 && empty($me)): ?>
+	<div id="join-story-with-link-modal" class="md-modal md-effect-1 md-show">
+		<div class="md-content">
+			<h1>Delta i storyn</h1>
+			<button class="btn btn-success" onclick="joinStory(false, true);">Ja</button>
+		</div>
+	</div>
+	<?php endif; ?>
+		<div id="my-turn"></div>
+		<div id="status">
 		<h1 id="cancelled" style="display: none;">Den här berättelsen har avbrutits.</h1>
 		<div id="alright" style="display: block;">
 			<h1><?=$writer[0]['max_writers']; ?> / <span id="writers"><?=$writer[0]['num_of_writers']; ?></span> författare</h1>
@@ -27,5 +35,5 @@
 			<a href="form/get/story/leave?story=<?=$story; ?>" class="btn btn-primary btn-lg">Lämna</a>
 			<?php endif; ?>
 		</div>
+		</div>
 	<?php endif; ?>
-</div>

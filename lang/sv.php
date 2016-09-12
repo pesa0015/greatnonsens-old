@@ -7,6 +7,11 @@ $translate = array(
 	'Language' => 'Språk',
 	'Change_theme' => 'Byt tema',
 	'About' => 'Om',
+	// News types
+	'my_turn' => 'Min tur',
+	'story_began' => 'Har börjat',
+	'story_finished' => 'Är färdig',
+	'group_invite' => 'Inbjuden',
 	// Noty Javascript Notification
 	'noty_message' => array(
 		'new_story_created' => array(

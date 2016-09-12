@@ -2,7 +2,7 @@
 
 session_start();
 
-require 'header.php';
+require 'layout/header.php';
 
 if (isset($_GET['after'])) {
 	switch ($_GET['after']) {

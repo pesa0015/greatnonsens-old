@@ -22,8 +22,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			if (sqlAction($joinStory)) {
 				$num_of_writers = $writers[0]['num_of_writers']+1;
-				if ($writers[0]['max_writers'] == $num_of_writers)
-					echo 2;
+				if ($writers[0]['max_writers'] == $num_of_writers) {
+					if (sqlAction("UPDATE story SET status = 1 WHERE story_id = {$story};")) {
+						$story_writers = sqlSelect("SELECT user_id FROM `story_writers` WHERE story_id = {$story} AND user_id != {$_SESSION['me']['id']};");
+						if ($story_writers) {
+							$news_feed = "INSERT INTO users_news_feed (user_id, type_id, story_id, group_id, writer_id, have_read, date) VALUES";
+							foreach($story_writers as $writer) {
+								$news_feed .= " ({$writer['user_id']}, 2, {$story}, null, null, 0, now()), ";
+							}
+							$news_feed = rtrim($news_feed, ', ');
+							$news_feed .= ';';
+							if (sqlAction($news_feed)) {
+								echo 2;
+								die;
+							}
+						}
+					}
+				}
 				else
 					echo 1;
 				die;

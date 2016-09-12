@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$title = sqlEscape($_POST['title']);
 	$text = sqlEscape($_POST['text']);
 	$rounds = sqlEscape($_POST['rounds']);
-	$current_round = 1;
+	$current_round = 2;
 	$nonsensmode = sqlEscape($_POST['nonsensmode']);
 	$max_writers = sqlEscape($_POST['num_of_writers']);
 	$public = sqlEscape($_POST['public']);

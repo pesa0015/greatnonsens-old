@@ -1,10 +1,4 @@
-<section class="section" id="head">
-	<div class="container">
-
-		<div class="row">
-			<div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1 text-center">	
-
-				<div class="page-header">
+<div class="page-header">
 					<h1>Skapa grupp</h1>
 				</div>
 			<?php require 'form/show_errors.php'; ?>
@@ -63,21 +57,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-lg-2 control-label">Göm gruppchatten</label>
-							<div class="col-lg-10">
-							<div class="radio">
-								<label>
-									<input type="radio" class="hide_groupchat" name="chat_is_public" value="1" checked=""> Nej
-								</label>
-							</div>
-							<div class="radio">
-			          			<label>
-									<input type="radio" class="hide_groupchat" name="chat_is_public" value="0"> Ja
-								</label>
-							</div>
-						</div>
-					</div>
 					<p>Inställningarna kan ändras när som helst.</p>
 				    <div class="form-group">
 				      <div class="col-lg-10 col-lg-offset-2">
@@ -86,11 +65,4 @@
 				    </div>
 				  </fieldset>
 				</form>
-	
-			</div> <!-- /col -->
-		</div> <!-- /row -->
-	
-	</div>
-</section>
-
 <?php if (isset($_SESSION['group'])) unset($_SESSION['group']); ?>

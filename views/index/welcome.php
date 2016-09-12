@@ -24,33 +24,22 @@
   <form action="" method="post" id="create-story">
     <p>Inledningsord:</p>
     <div id="char-left" style="padding-top:15px;"><span>50</span> tecken kvar</div>
-    <textarea id="opening-words" class="form-control" rows="3" maxlength="50"></textarea>
+    <textarea id="opening-words" class="form-control" rows="3" maxlength="50">Det var en gång</textarea>
     <p>Vad ska berättelsen heta?</p>
-    <input type="text" id="title" class="form-control">
-    <p>Nonsensläge:</p>
-    <div class="radio">
-      <label>
-        <input type="radio" name="nonsensmode" id="nonsens-mode" value="1" checked><span>Ja</span>
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input type="radio" name="nonsensmode" id="nonsens-mode" value="0"><span>Nej</span>
-      </label>
-    </div>
+    <input type="text" id="title" class="form-control" value="Berg ">
     <p>Rundor:</p>
-    <input type="text" id="rounds" value="5" class="form-control" style="width:50px;">
+    <input type="text" id="rounds" value="3" class="form-control" style="width:50px;">
     <p>Max antal författare:</p>
-    <input type="text" id="num-of-writers" value="10" class="form-control" style="width:50px;">
+    <input type="text" id="num-of-writers" value="3" class="form-control" style="width:50px;">
     <p>Öppen för alla:</p>
     <div class="radio">
       <label>
-        <input type="radio" name="public" value="1"><span>Ja</span>
+        <input type="radio" name="public" value="1" checked><span>Ja</span>
       </label>
     </div>
     <div class="radio">
       <label>
-        <input type="radio" name="public" value="0" checked><span>Nej, endast via länk-inbjudning</span>
+        <input type="radio" name="public" value="0"><span>Nej, endast via länk-inbjudning</span>
       </label>
     </div>
     <input type="submit" value="Skapa" class="btn btn-primary">

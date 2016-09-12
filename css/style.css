@@ -1,6 +1,45 @@
 body {
 	margin-bottom: 100px;
 }
+.success {
+	background: #5cb85c;
+	color: #FFFFFF;
+	padding: 10px 15px 10px 15px;
+	border-radius: 5px;
+}
+.success img {
+	width: 30px;
+	margin-right: 15px;
+}
+.success_text {
+	border-right: 1px solid #FFFFFF;
+    padding-right: 15px;
+    margin-right: 15px;
+}
+.remove-result-box {
+	cursor: pointer;
+}
+.ul-title {
+	font-weight: 900;
+    font-size: 20px;
+    border-bottom: 3px solid #000000;
+}
+.input-error, .success {
+	display: none;
+}
+.input-error {
+	background: #FF5F67;
+	color: #FFFFFF;
+	padding: 5px 10px 5px 10px;
+	float: left;
+	border-bottom-right-radius: 20px;
+}
+.input-show-error {
+	display: block;
+}
+input[type=submit], button {
+	outline: 0;
+}
 #wrapper {
 	width: 968px;
 	margin: auto;
@@ -9,6 +48,7 @@ header {
 	margin: 15px auto;
 	padding: 15px;
 	border-bottom: 1px solid #868686;
+	position: relative;
 }
 #login-signup-cookies-area {
 	border-bottom: 1px solid #C0C0C0;
@@ -21,13 +61,85 @@ header {
 #logo {
 	font-size: 34px;
 }
-#toggle-menu, #hide-menu {
+#header-icons {
 	float: right;
-	font-size: 44px;
+}
+#header-icons img:not(#book) {
+	width: 35px;
+}
+#toggle-write {
+	margin: 0 20px 0 30px;
+}
+#toggle-news {
+	margin-right: 20px;
+}
+#book {
+	width: 27px;
+}
+.top-nav-shortcut-item {
+	position: relative;
+	display: inline-block;
+}
+.top-nav-shortcut-item .title {
+	font-size: 20px;
+	font-weight: 900;
+}
+.news-type {
+	font-size: 16px;
+}
+#header-icons span {
+	display: inline-block;
+	vertical-align: middle;
+	position: relative;
+	cursor: pointer;
+}
+#header-icons span:hover {
+	/*background: #FFFFFF;*/
+}
+#header-icons span:hover + .news, .news:hover {
+	display: block;
+}
+#alert {
+	/*margin: 0 25px 0 20px;*/
+}
+#toggle-menu, #hide-menu {
+	/*font-size: 44px;*/
 }
 #nav ul {
 	list-style: none;
 	padding: 0px;
+}
+.news {
+	display: none;
+	background: #FFFFFF;
+	position: absolute;
+	right: 0;
+	top: 100%;
+	list-style: none;
+	cursor: pointer;
+	padding: 0;
+	/*margin: 15px;*/
+	width: 250px;
+	box-shadow: -1px 1px 15px;
+}
+.news li {
+	padding: 8px 5px 8px 5px;
+	transition: .1s;
+}
+.news li:hover {
+	background: #D9D9D9;
+}
+.nr-show {
+	background: #E6E6FA;
+	position: absolute;
+    top: -10px;
+    right: 15px;
+    padding: 3px;
+    border-radius: 50px;
+    text-align: center;
+}
+.nr-hide {
+	display: none;
 }
 #welcome h1 {
 	font-size: 105px;

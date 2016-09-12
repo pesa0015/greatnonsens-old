@@ -16,9 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$_SESSION['login'] = array();
 
 	if (!$user_exists) {
-		array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
-		$_SESSION['login']['user'] = $user;
-		header('Location: ../../../login');
+		if (isset($_POST['phonegap']))
+			echo 'wrong_username';
+		else {	
+			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\">Fel användarnamn");
+			$_SESSION['login']['user'] = $user;
+			header('Location: ../../../login');
+		}
 	}
 
 	else {
@@ -31,14 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 			unset($_SESSION['login']);
 
-			header('Location: ../../../');
+			if (isset($_POST['phonegap']))
+				echo json_encode(array('success' => true, 'user_id' => $user_exists[0]['user_id'], 'user_name' => $user_exists[0]['username']));
+			else	
+				header('Location: ../../../');
 		}
 
 		else {
 			array_push($_SESSION['errors'], "<span class=\"ion-android-warning\"> Fel lösenord");
 			$_SESSION['login']['user'] = $user;
 			$_SESSION['login']['password'] = $password;
-			header('Location: ../../../login');
+			if (isset($_POST['phonegap']))
+				echo 'wrong_password';
+			else	
+				header('Location: ../../../login');
 		}
 	}
 }

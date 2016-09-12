@@ -11,7 +11,6 @@ $.getScript('js/my_stories.php');
 var toggleMenu = document.getElementById('toggle-menu');
 var menu = document.getElementById('nav');
 var content = document.getElementById('content');
-var closeCookieInfo = document.getElementById('close-cookie-info');
 var closeMenu = document.getElementById('hide-menu');
 /*toggleMenu.addEventListener('click', function() {
 	if (toggleMenu.className === 'ion-navicon') {
@@ -45,15 +44,6 @@ $(closeMenu).click(function() {
 	$(content).delay(50).fadeIn();
 	$(closeMenu).fadeOut(100);
 	$(toggleMenu).delay(100).fadeIn();	
-});
-closeCookieInfo.onmouseover = function() {
-	closeCookieInfo.className = 'ion-ios-close';	
-}
-closeCookieInfo.onmouseout = function() {
-	closeCookieInfo.className = 'ion-ios-close-outline';
-}
-$(closeCookieInfo).click(function(){
-    $('#login-signup-cookies-area').slideUp();
 });
 <?php }
 

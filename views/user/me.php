@@ -1,0 +1,1 @@
+<h1><?=$_SESSION['user']['name']; ?></h1>

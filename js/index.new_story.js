@@ -1,5 +1,6 @@
 mdOverlay = document.getElementsByClassName('md-overlay')[0];
-function manageModal(modal, btn = false) {
+function manageModal(modal, btnClose) {
+	var btn = btnClose || false;
 	md = document.getElementById(modal);
 	md.className += ' md-show';
 	mdOverlay.style.visibility = 'visible';
@@ -47,12 +48,12 @@ createStoryForm.addEventListener('submit', function() {
 	    	var story = JSON.parse(xhttp.responseText).story_id;
 	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
 	    	newStory.set({'writers': 1, 'waiting': true});
-	    	window.location.replace('write?story=' + story);
+	    	window.location.replace('write/' + story);
 	    }
 	}
 	xhttp.open('POST', 'form/post/story/new', true);
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhttp.send('title=' + input[0].value + '&text=' + input[1].value + '&rounds=' + input[2].value + '&nonsensmode=' + input[3].value + '&num_of_writers=' + input[4].value + '&public=' + input[5].value);
+	xhttp.send('title=' + input[0].value + '&text=' + input[1].value + '&rounds=' + input[2].value + '&nonsensmode=1&num_of_writers=' + input[4].value + '&public=' + input[5].value);
 });
 
 // $('#hide').css('display', 'none');
@@ -62,14 +63,14 @@ function getStories() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	if (xhttp.responseText === '')
 	    		return;
-	    	console.log(xhttp.responseText);
+	    	// console.log(xhttp.responseText);
 	    	var stories = JSON.parse(xhttp.responseText);
 	    	if (stories.length > 0) {
 	    		$(tableContent).empty();
 	    		var nonsensmode = null;
 	    		for (var i = 0; i < stories.length; i++) {
 	    			nonsensmode = (stories[i].nonsens_mode) ? 'Ja' : 'Nej';
-	    			$(tableContent).append('<tr id="story-' + stories[i].id + '" data-story="' + stories[i].id + '"><td>' + stories[i].title + '</td><td>' + stories[i].opening_words + '</td><td>' + nonsensmode + '</td><td id="writers-' + stories[i].id + '">' + stories[i].max_writers + '/<span class="num-of-writers">' + stories[i].num_of_writers + '</span></td><td><button onClick="joinStory(this);">Gå med</button></td></tr>');
+	    			$(tableContent).append('<tr id="story-' + stories[i].id + '" data-story="' + stories[i].id + '"><td>' + stories[i].title + '</td><td>' + stories[i].opening_words + '</td><td>' + nonsensmode + '</td><td id="writers-' + stories[i].id + '">' + stories[i].max_writers + '/<span class="num-of-writers">' + stories[i].num_of_writers + '</span></td><td><button onClick="joinStory(this, false);">Gå med</button></td></tr>');
 	    		}
 	    	}
 	    }
@@ -81,35 +82,6 @@ function getStories() {
 
 setInterval(function(){getStories();},5000);
 getStories();
-
-function joinStory(e) {
-	var storyId = e.parentNode.parentNode.getAttribute('data-story');
-	xhttp.onreadystatechange = function() {
-	    if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	var status = parseInt(xhttp.responseText);
-	    	if (status != 1 && status != 2) {
-	    		console.log(xhttp.responseText);
-	    		return;
-	    	}
-	    	// Max writers reached, story started
-	    	if (status == 2) {
-	    		var not_ready = firebase.database().ref('stories/not_ready/' + storyId);
-				not_ready.remove();
-	    	}
-	    	if (status == 1) {
-	    		var writers = firebase.database().ref('stories/not_ready/' + storyId);
-	    		writers.once('value', function(dataSnapshot) {
-	    			writers.update({'writers': dataSnapshot.val().writers+1});
-	    		});
-	    		keepTheWritersUpdated();
-	    	}
-	    	window.location.replace('write?story=' + storyId);
-	    }
-	}
-	xhttp.open('POST', 'form/post/story/join', true);
-	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhttp.send('story=' + storyId);
-}
 
 var stories = firebase.database().ref('stories/not_ready/');
 

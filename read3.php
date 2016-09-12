@@ -1,5 +1,6 @@
 <?php
 $story = (int)$_GET['story'];
+require 'mysql/query.php';
 $script = 'js/index.new_story.js';
 $words = array(
 			0 => array(
@@ -45,7 +46,7 @@ $words = array(
 // $title = sqlSelect("SELECT title FROM story WHERE story_id = {$story} AND status = 3;");
 $title = array(0 => array('title' => 'Cat'));
 // $words = sqlSelect("SELECT words FROM `row` WHERE story_id = {$story};");
-// $writers = sqlSelect("SELECT type, username FROM users INNER JOIN story_writers ON users.user_id = story_writers.user_id WHERE story_id = {$story};");
+$writers = sqlSelect("SELECT type, username FROM users INNER JOIN story_writers ON users.user_id = story_writers.user_id WHERE story_id = {$story};");
 function pre($a) {
 	echo '<pre>';
 	print_r($a);
@@ -139,12 +140,12 @@ if (isset($_GET['pdf'])) {
 	$pdf->AddPage();
 	$text = '';
 	foreach($words as $word) {
-		$text .= $word['words'];
+		$text .= $word['word'];
 	}
-	// $pdf->Text(9,35,$text,0);
+	$pdf->Text(9,35,$text,0);
 	$pdf->SetFont('courier');
 	$pdf->setCellHeightRatio(3);
-	$pdf->MultiCell(0, 0, $z, 0, 'L', false, 1, 10, 30, true, 2, false, true, 0, 'T', true);
+	$pdf->MultiCell(0, 0, 0, 0, 'L', false, 1, 10, 30, true, 2, false, true, 0, 'T', true);
 	$pdf->Output('example_003.pdf', 'I');
 }
 require 'header.php';

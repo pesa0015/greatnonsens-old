@@ -1,4 +1,20 @@
 var xhttp = new XMLHttpRequest();
+var toggleMenu = document.getElementById('toggle-menu');
+var menu = document.getElementById('nav');
+var content = document.getElementById('content');
+var closeMenu = document.getElementById('hide-menu');
+$(toggleMenu).click(function() {
+	$(content).fadeOut(50);
+	$(menu).delay(50).fadeIn();
+	$(toggleMenu).fadeOut(100);
+	$(closeMenu).delay(100).fadeIn();	
+});
+$(closeMenu).click(function() {
+	$(menu).fadeOut(50);
+	$(content).delay(50).fadeIn();
+	$(closeMenu).fadeOut(100);
+	$(toggleMenu).delay(100).fadeIn();	
+});
 function getParameterByName(name, url) {
 	// If url = write/{$id}
 	// window.location.href.split('/').pop()

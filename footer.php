@@ -22,7 +22,6 @@
 		</script>
 		<?php endif; ?>
 		<script src="js/main.js"></script>
-		<script src="js/main.php"></script>
 		<?php if (isset($script)): ?>
 		<script id="page-js" src="<?=$script; ?>"></script>
 		<div id="new-script"></div>

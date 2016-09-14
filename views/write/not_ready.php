@@ -26,13 +26,16 @@
 					<div>Gäst <?=$on_turn[0]['user_id']; ?> fortsätter berättelsen.</div>
 				<?php } ?>
 			<?php endif; ?>
-			<?php if ($writer[0]['num_of_writers'] > 2 && $writer[0]['started_by_user'] == $_SESSION['me']['id']): ?>
-			<a href="form/get/story/start?story=<?=$_GET['story']; ?>" id="begin" class="btn btn-default btn-lg" style="float: right;">Börja</a>
+			<?php if ($writer[0]['num_of_writers'] < 3 && $writer[0]['started_by_user'] == $_SESSION['me']['id']): ?>
+			<div id="story_started_by_me" style="display: none;"></div>
 			<?php endif; ?>
-			<?php if (isset($started_by) && $started_by == $_SESSION['me']['id']): ?>
-			<a href="form/get/story/delete?story=<?=$story; ?>" class="btn btn-primary btn-lg" style="float: left;">Avbryt</a>
+			<?php if ($writer[0]['num_of_writers'] > 2 && $writer[0]['started_by_user'] == $_SESSION['me']['id']): ?>
+			<span id="begin" class="btn btn-default btn-lg" style="float: right;" onclick="startStory();">Börja</span>
+			<?php endif; ?>
+			<?php if ($writer[0]['started_by_user'] == $_SESSION['me']['id']): ?>
+			<span class="btn btn-primary btn-lg" style="float: left;" onclick="deleteStory();">Avbryt story</span>
 			<?php else: ?>
-			<a href="form/get/story/leave?story=<?=$story; ?>" class="btn btn-primary btn-lg">Lämna</a>
+			<span class="btn btn-primary btn-lg" onclick="leaveStory();">Lämna</span>
 			<?php endif; ?>
 		</div>
 		</div>

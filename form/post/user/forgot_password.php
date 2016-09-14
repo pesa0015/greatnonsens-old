@@ -27,8 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$mail->Body = $text;
 			$mail->IsHTML(true);
 
-			if ($mail->send())
-				echo json_encode(array('success' => true, 'users_mail' => $getUser[0]['email']));
+			if (!$mail->send()) {
+			    // echo "Mailer Error: " . $mail->ErrorInfo . '<br />';
+			    // echo '<pre>'.print_r(error_get_last(), true).'</pre>';
+			} else echo json_encode(array('success' => true, 'users_mail' => $getUser[0]['email']));
 		}
 	}
 	else echo json_encode(array('success' => false));

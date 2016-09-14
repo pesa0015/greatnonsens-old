@@ -9,4 +9,3 @@
 		<span><?=$word['words']; ?></span>
 		<?php endforeach; ?>
 	</p>
-	<hr />

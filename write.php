@@ -12,24 +12,16 @@ if (isset($route[3]))
 
 session_start();
 
-// if (isset($_SESSION['story'])) {
-// 	if ($_SESSION['story'] != $story)
-// 		$_SESSION['story'] = $story;
-// }
-// else
-// 	$_SESSION['story'] = $story;
-// echo '<pre>';print_r($_SESSION);echo '</pre>';
-// echo '<br />';
-// echo session_id();
-
-// $baseHref = '../';
-
 require 'layout/header.php';
 
+// Check if story exists
+$title = sqlSelect("SELECT title FROM story WHERE story_id = {$story};");
+if (!$title): ?>
+	<h1>Den här storyn finns inte.</h1>
+<?php else:
 $status = sqlSelect("SELECT status, join_public FROM story WHERE story_id = {$story};");
 $on_turn = sqlSelect("SELECT users.user_id, username, type FROM `users` INNER JOIN story_writers ON users.user_id = story_writers.user_id WHERE story_id = {$story} AND on_turn = 1;");
 $me = sqlSelect("SELECT user_id FROM story_writers WHERE story_id = {$story} AND user_id = {$_SESSION['me']['id']};");
-$title = sqlSelect("SELECT title FROM story WHERE story_id = {$story};");
 $opening_words = sqlSelect("SELECT words FROM row WHERE story_id = {$story} ORDER BY row_id LIMIT 1;");
 
 $words = '';
@@ -48,7 +40,7 @@ require 'views/write/header.php';
 
 // Not ready
 if ($status[0]['status'] == 0) {
-	$writer = sqlSelect("SELECT max_writers, (SELECT COUNT(story_writers.user_id) FROM story_writers WHERE story_id = {$story}) AS num_of_writers, started_by_user FROM story WHERE story_id = {$story};");
+	$writer = sqlSelect("SELECT max_writers, (SELECT COUNT(story_writers.user_id) AS num_of_writers FROM story_writers WHERE story_id = {$story}) AS num_of_writers, started_by_user FROM story WHERE story_id = {$story};");
 	require 'views/write/not_ready.php';
 	$script = 'js/write.not_ready.js';
 }
@@ -69,6 +61,8 @@ else if ($status[0]['status'] == 1) {
 else if ($status[0]['status'] == 2) {
 	require 'views/write/finished.php';
 }
+
+endif;
 
 require 'views/write/footer.php';
 

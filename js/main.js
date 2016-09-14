@@ -275,20 +275,25 @@ user.on('child_changed', function(childSnapshot) {
 		return;
 	var changed = childSnapshot.getKey();
 	var value = childSnapshot.val();
-	if (changed === 'news') {
-		user.update({'news': false});
-	}
-	if (changed === 'on_turn') {
-		user.update({'on_turn': false});
-		onTurn(value);
-	}
-	if (changed === 'story_began') {
-		user.update({'story_began': false});
-		storyHasBegan(value);
-	}
-	if (changed === 'story_finish') {
-		user.update({'story_finish': false});
-		storyFinished(value);
+	switch(changed) {
+		case 'news':
+			user.update({'news': false});
+			break;
+		case 'on_turn':
+			user.update({'on_turn': false});
+			onTurn(value);
+			break;
+		case 'story_began':
+			user.update({'story_began': false});
+			storyHasBegan(value);
+			break;
+		case 'story_finish':
+			user.update({'story_finish': false});
+			storyFinished(value);
+			break;
+		case 'story_deleted':
+			user.update({'story_deleted': false});
+			break;
 	}
 });
 if (document.contains(document.getElementById('close-cookie-info'))) {

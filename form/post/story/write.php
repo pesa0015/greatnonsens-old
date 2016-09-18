@@ -3,6 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	session_start();
 	require '../../../mysql/query.php';
+	require '../../../lib/Pusher/config.php';
 
 	$words = sqlEscape($_POST['words']);
 	$story = $_POST['story'];
@@ -30,12 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$story_writers = sqlSelect("SELECT user_id FROM `story_writers` WHERE story_id = {$story} AND user_id != {$_SESSION['me']['id']};");
 				if ($story_writers) {
 					$news_feed = "INSERT INTO users_news_feed (user_id, type_id, story_id, group_id, writer_id, have_read, date) VALUES";
+					$clients = array();
 					foreach($story_writers as $writer) {
 						$news_feed .= " ({$writer['user_id']}, 3, {$story}, null, null, 0, now()), ";
+						array_push($clients, 'private-' . $writer['user_id']);
 					}
 					$news_feed = rtrim($news_feed, ', ');
 					$news_feed .= ';';
 					if (sqlAction($news_feed)) {
+						$pusher->trigger($clients, 'news', json_encode(array('type' => 'story_finished', 'value' => $story)));
 						echo json_encode(array('success' => true, 'status' => 'story is finished', 'story' => $story));
 						die;
 					}
@@ -58,6 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (sqlAction($updateOnTurn)) {
 			$on_turn = sqlSelect("SELECT users.user_id, username, type FROM `users` INNER JOIN story_writers ON users.user_id = story_writers.user_id WHERE story_id = {$story} AND on_turn = 1;");
 			if (sqlAction("INSERT INTO users_news_feed (user_id, type_id, story_id, group_id, writer_id, have_read, date) VALUES ({$on_turn[0]['user_id']}, 1, {$story}, null, null, 0, now());")) {
+				$story_writers = sqlSelect("SELECT user_id FROM `story_writers` WHERE story_id = {$story} AND user_id != {$_SESSION['me']['id']} AND on_turn = 0;");
+				$clients = array();
+				foreach($story_writers as $writer) {
+					if ($writer['user_id'] != $on_turn[0]['user_id'])
+						array_push($clients, 'private-' . $writer['user_id']);
+				}
+				$pusher->trigger('private-' . $on_turn[0]['user_id'], 'news', json_encode(array('type' => 'my_turn', 'value' => array('story_id' => $story, 'previous_writer' => $_SESSION['me'], 'words' => $words))));
+				$pusher->trigger($clients, 'news', json_encode(array('type' => 'next_writer', 'value' => array('story_id' => $story, 'next_writer' => $on_turn))));
 				echo json_encode(array('success' => true, 'on_turn' => $on_turn, 'story' => $story));
 				die;
 			}

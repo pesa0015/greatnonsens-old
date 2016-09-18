@@ -36,7 +36,7 @@ function sendXhttp(callback, file, param, data) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
-	    	// console.log(xhttp.responseText);
+	    	console.log(xhttp.responseText);
 	    	callback(xhttp.responseText, data);
 	    }
 	}
@@ -79,7 +79,6 @@ function checkNewsFeed(type, markAsRead) {
 	    	var result = JSON.parse(xhttp.responseText);
 	    	if (read === true) readNewsFeed(result[0].id);
 	    	else {
-	    		console.log(1);
 	    		var page = ''; 
 	    		if (result[0].group_name)
 	    			page = 'groups';
@@ -203,59 +202,31 @@ function joinStory(e, modal) {
 	    	}
 	    	// Max writers reached, story started
 	    	if (status == 2) {
-	    		var not_ready = firebase.database().ref('stories/not_ready/' + storyId);
-				not_ready.remove();
-				if (modal) {
+	    		if (modal === true) {
 					document.getElementById('join-story-with-link-modal').className = 'md-modal md-effect-1';
-					storyHasBegan(storyId);
-					// return;
+					storyHasBegan(getStoryId());
 				}
-				sendXhttp(beginStory, 'form/post/writers/get', 'story=' + storyId, {id: storyId});
 	    	}
 	    	if (status == 1) {
-	    		var writers = firebase.database().ref('stories/not_ready/' + storyId);
-	    		writers.once('value', function(dataSnapshot) {
-	    			writers.update({'writers': dataSnapshot.val().writers+1});
-	    		});
-	    		if (modal) {
+	    		if (modal === true) {
 	    			document.getElementById('join-story-with-link-modal').className = 'md-modal md-effect-1';
-	    			// return;
+	    			document.getElementById('writers').innerHTML++;
 	    		}
 	    	}
-	    	if (!modal) window.location.replace('write/' + storyId);
+	    	if (modal !== true) window.location.replace('write/' + storyId);
 	    }
 	}
 	xhttp.open('POST', 'form/post/story/join', true);
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhttp.send('story=' + storyId);
 }
-// console.log(storyId);
 function onTurn(story) {
 	if (story == storyId) {
 		checkNewsFeed('my_turn', true);
 		getStory(storyId);
 		return;
 	}
-	checkNewsFeed('my_turn', false);
-	// var xhttp = new XMLHttpRequest();
-	// xhttp.onreadystatechange = function() {
-	//     if (xhttp.readyState == 4 && xhttp.status == 200) {
-	//     	var stories = JSON.parse(xhttp.responseText);
-	//     	var current;
-	//     	for (var i = 0; i < stories.length; i++) {
-	//     		if (stories[i].story_id != storyId && stories[i].status == 1 && stories[i].on_turn == 1) {
-	//     			// Update on-turn-icon
-	//     		}
-	//     		if (stories[i].story_id == storyId && stories[i].status == 2) {
-	//     			// Story finished
-	//     			console.log('story finished');
-	//     		}
-	//     	}
-	//     }
-	// }
-	// xhttp.open('POST', 'form/post/story/get', true);
-	// xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	// xhttp.send();
+	else checkNewsFeed('my_turn', false);
 }
 function showForm(status, data) {
 	var response = JSON.parse(status);
@@ -269,8 +240,24 @@ function showForm(status, data) {
 		$('#my-turn').prepend('<div>Väntar på ' + response.on_turn[0].username + ' ' + response.on_turn[0].user_id + '</div>');
 	}
 }
+function myTurn(data) {
+	if (data.story_id == getStoryId()) {
+		checkNewsFeed('my_turn', true);
+		$('#page-js').remove();
+		$('#my-turn').load('views/write/my_turn.php', null, function() {
+			document.getElementById('text').innerHTML = data.words;
+			changeJsFile('js/write.my_turn.js');
+		});
+	}
+	else checkNewsFeed('my_turn', false);
+}
+function nextWriter(data) {
+	if (data.story_id == getStoryId()) {
+		$('#my-turn').html('<div id="waiting">Väntar på ' + data.next_writer[0].username + ' ' + data.next_writer[0].user_id + '</div>');
+	}
+}
 function storyFinished(story) {
-	if (story == storyId) {
+	if (story == getStoryId()) {
 		checkNewsFeed('story_finished', true);
 		$('#waiting').remove();
 		$('#my-turn').prepend('<div>Berättelsen är färdig!</div><div><a href="read/' + story + '" class="btn btn-success">Läs den!</a></div>');
@@ -278,39 +265,62 @@ function storyFinished(story) {
 	else checkNewsFeed('story_finished', false);
 }
 function storyHasBegan(story) {
-	if (parseInt(story) == parseInt(storyId)) {
+	if (story == getStoryId()) {
 		$('#status').remove();
 		sendXhttp(showForm, 'form/post/story/check_turn', 'story=' + storyId, null);
 		checkNewsFeed('story_began', true);
 	}
 	else checkNewsFeed('story_began', false);
 }
-var user = firebase.database().ref('users/' + me);
-user.on('child_changed', function(childSnapshot) {
-	if (!childSnapshot.val())
-		return;
-	var changed = childSnapshot.getKey();
-	var value = childSnapshot.val();
-	switch(changed) {
-		case 'news':
-			user.update({'news': false});
+function storyDeleted(story) {
+	if (story == getStoryId()) {
+		document.getElementById('content').innerHTML = '<h1>Storyn har raderats.</h1>';
+		checkNewsFeed('story_deleted', true);
+	}
+	else checkNewsFeed('story_deleted', false);
+}
+var channel = pusher.subscribe('private-' + me);
+channel.bind('news', function(data) {
+	var message = JSON.parse(data);
+	var type = message.type;
+	var value = message.value;
+	switch(type) {
+		case 'my_turn':
+			myTurn(value);
 			break;
-		case 'on_turn':
-			user.update({'on_turn': false});
-			onTurn(value);
+		case 'next_writer':
+			nextWriter(value);
 			break;
 		case 'story_began':
-			user.update({'story_began': false});
 			storyHasBegan(value);
 			break;
-		case 'story_finish':
-			user.update({'story_finish': false});
+		case 'story_finished':
 			storyFinished(value);
 			break;
 		case 'story_deleted':
-			user.update({'story_deleted': false});
 			break;
 	}
+});
+var numWriters = document.getElementById('writers');
+var alright = document.getElementById('alright');
+var startedByMe = document.contains(document.getElementById('story_started_by_me'));
+channel.bind('writer_joined_story', function(data) {
+	var result = JSON.parse(data);
+	if (parseInt(result.story_id) != getStoryId())
+		return;
+	$(numWriters).text(result.num_of_writers);
+	if (result.num_of_writers > 2 && startedByMe) {
+		$(alright).prepend('<span id="begin" class="btn btn-default btn-lg" style="float: right;" onclick="startStory();">Börja</span>');
+	}
+});
+channel.bind('writer_leaved_story', function(data) {
+	var result = JSON.parse(data);
+	if (result.story_id != getStoryId())
+		return;
+	if (parseInt(numWriters.innerHTML) > 2 && startedByMe) {
+		$('#begin').remove();
+	}
+	numWriters.innerHTML--;
 });
 if (document.contains(document.getElementById('close-cookie-info'))) {
 	var closeCookieInfo = document.getElementById('close-cookie-info');

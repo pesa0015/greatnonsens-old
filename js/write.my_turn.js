@@ -14,12 +14,10 @@ document.getElementById('send').onclick = function(e) {
 	    		textOnPage.innerHTML += text.value;
 	    	if (response.status === 'story is finished') {
 	    		$('#my-turn').prepend('<div>Berättelsen är färdig!</div><div><a href="read/' + response.story + '" class="btn btn-success">Läs den!</a></div>');
-	    		keepTheWritersUpdated(response.story, {story_finish: response.story});
 	    	}
 	    	else {
 	    		$('#my-turn').load('views/write/wait.php', {'username': response.on_turn[0].username + ' ' + response.on_turn[0].user_id});
 	    		$('#page-js').remove();
-	    		keepTheWritersUpdated(response.story, {on_turn: response.story});
 	    	}
 	    }
 	}

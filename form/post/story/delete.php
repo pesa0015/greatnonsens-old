@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		die;
 
 	require '../../../mysql/query.php';
+	require '../../../lib/Pusher/config.php';
 		
 	$story = $_POST['story'];
 
@@ -15,6 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$writers = sqlSelect("SELECT user_id FROM `story_writers` WHERE story_id = {$story} AND user_id != {$_SESSION['me']['id']};");
 	if (sqlAction("DELETE FROM story_writers WHERE story_id = {$story};") && sqlAction("DELETE FROM row WHERE story_id = {$story};")) {
 		if (sqlAction("DELETE FROM story WHERE story_id = {$story};")) {
+			$clients = array();
+			foreach($writers as $writer) {
+				array_push($clients, 'private-' . $writer['user_id']);
+			}
+			$pusher->trigger($clients, 'news', json_encode(array('type' => 'story_deleted', 'story_id' => $story, 'num_of_writers' => $num_of_writers, 'writer' => $_SESSION['me'])));
+			$pusher->trigger('main_channel', 'story_deleted', json_encode(array('story_id' => $story, 'num_of_writers' => $num_of_writers)));
 			echo json_encode(array('success' => true, 'writers' => $writers));
 			die;
 		}

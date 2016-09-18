@@ -3,24 +3,13 @@
 		</div> <!-- END #WRAPPER -->
 		<script src="assets/js/jquery-1.11.1.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
-		<!--<script src="https://cdn.firebase.com/js/client/2.3.1/firebase.js"></script>-->
-		<script src="assets/js/firebase.js"></script>
-		<script src="js/firebase_init.js"></script>
+		<script src="assets/js/pusher.min.js"></script>
+		<script src="js/pusher_config.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.js"></script>
 		<script src="assets/js/jquery.noty.packaged.min.js"></script>
-		<script src="assets/js/jquery.timeago.js"></script>
 		<script src="http://momentjs.com/downloads/moment.js"></script>
-		<script src="assets/js/livestamp.min.js"></script>
-		<script src="assets/js/validator.min.js"></script>
-		<script src="assets/js/spin.min.js"></script>
 		<script src="assets/js/cookies.min.js"></script>
-		<script><?='var me = ' . $_SESSION['me']['id'] . ';'; ?></script>
-		<?php if (isset($saveGuest)): ?>
-		<script>
-		var user = firebase.database().ref('users/' + me);
-		user.set({news: false, on_turn: false, story_began: false, story_finish: false});
-		</script>
-		<?php endif; ?>
+		<script>var me = <?=$_SESSION['me']['id']; ?>;</script>
 		<script src="js/main.js"></script>
 		<?php if (isset($script)): ?>
 		<script id="page-js" src="<?=$script; ?>"></script>

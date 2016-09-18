@@ -46,8 +46,6 @@ createStoryForm.addEventListener('submit', function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	console.log(xhttp.responseText);
 	    	var story = JSON.parse(xhttp.responseText).story_id;
-	    	var newStory = firebase.database().ref('stories/not_ready/' + story);
-	    	newStory.set({'writers': 1, 'waiting': true});
 	    	window.location.replace('write/' + story);
 	    }
 	}
@@ -55,15 +53,12 @@ createStoryForm.addEventListener('submit', function() {
 	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	xhttp.send('title=' + input[0].value + '&text=' + input[1].value + '&rounds=' + input[2].value + '&nonsensmode=1&num_of_writers=' + input[4].value + '&public=' + input[5].value);
 });
-
-// $('#hide').css('display', 'none');
 var tableContent = $('tbody');
 function getStories() {
 	xhttp.onreadystatechange = function() {
 	    if (xhttp.readyState == 4 && xhttp.status == 200) {
 	    	if (xhttp.responseText === '')
 	    		return;
-	    	// console.log(xhttp.responseText);
 	    	var stories = JSON.parse(xhttp.responseText);
 	    	if (stories.length > 0) {
 	    		$(tableContent).empty();
@@ -83,12 +78,12 @@ function getStories() {
 setInterval(function(){getStories();},5000);
 getStories();
 
-var stories = firebase.database().ref('stories/not_ready/');
-
-stories.on('child_changed', function(childSnapshot, prevChildKey) {
-	$('#writers-' + childSnapshot.key()).find('.num-of-writers').text(childSnapshot.val().writers);
+var mainChannel = pusher.subscribe('main_channel');
+mainChannel.bind('writer_joined_story', function(data) {
+	$('#writers-' + data.story_id).find('.num-of-writers').text(data.num_of_writers);
 });
-
-stories.on('child_removed', function(oldChildSnapshot) {
-	document.getElementById('#story-' + oldChildSnapshot.key()).className += ' started';
+mainChannel.bind('story_started', function(data) {
+	var storyElement = document.getElementById('#story-' + data.story_id)
+	storyElement.className += ' started';
+	storyElement.getElementsByTagName('button')[0].disabled = 'disabled';
 });

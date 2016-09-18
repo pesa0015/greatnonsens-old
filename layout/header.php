@@ -11,10 +11,10 @@ if (isset($_GET['lang'])) {
 
 require 'lang/config.php';
 
+require 'lib/Pusher/config.php';
+
 if (isset($_SESSION['user'])) {
-	// $groups = sqlSelect("SELECT DISTINCT(groups.id), groups.name FROM groups INNER JOIN `groups_activity_history` ON groups.id = groups_activity_history.group_id WHERE user_id = {$_SESSION['user']['id']} ORDER BY groups_activity_history.id DESC LIMIT 5;");
 	$groups = sqlSelect("SELECT DISTINCT(groups.id), groups.name FROM groups INNER JOIN `group_members` ON groups.id = group_members.group_id WHERE user_id = {$_SESSION['user']['id']} AND group_members.status = 1 ORDER BY groups.id DESC LIMIT 5;");
-	// $storiesMyTurn = sqlSelect("SELECT story.story_id, title FROM story INNER JOIN story_writers ON story.story_id = story_writers.story_id WHERE story_writers.user_id = {$_SESSION['user']['id']} AND on_turn = 1;");
 }
 
 $userNews = sqlSelect("SELECT users_news_feed.id, have_read, news_type.type, groups.id AS group_id, name AS group_name, story.story_id, title, users.user_id, username FROM users_news_feed LEFT JOIN groups ON groups.id = users_news_feed.group_id LEFT JOIN story ON story.story_id = users_news_feed.story_id LEFT JOIN users ON users.user_id = users_news_feed.writer_id INNER JOIN `news_type` ON news_type.id = users_news_feed.type_id WHERE users_news_feed.user_id = {$_SESSION['me']['id']} AND have_read = 0;");

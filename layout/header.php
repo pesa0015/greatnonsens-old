@@ -59,9 +59,8 @@ if ($userNews) {
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Great nonsens - Stafettskrivning. Till slut blir det en galen eller fantastisk berättelse eller helt enkelt bara ren nonsens.">
 	
 	<title>Great nonsens</title>
 	<?php $href = (isset($baseHref)) ? $baseHref : ''; ?>

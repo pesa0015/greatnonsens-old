@@ -1,5 +1,5 @@
 body {
-	margin-bottom: 100px;
+	margin: 0 0 100px 0;
 }
 .success {
 	background: #5cb85c;
@@ -39,10 +39,6 @@ body {
 }
 input[type=submit], button {
 	outline: 0;
-}
-#wrapper {
-	width: 968px;
-	margin: auto;
 }
 header {
 	margin: 15px auto;
@@ -140,9 +136,6 @@ header {
 }
 .nr-hide {
 	display: none;
-}
-#welcome h1 {
-	font-size: 105px;
 }
 .welcome {
 	/*text-align: center;*/
@@ -325,7 +318,14 @@ input:focus {
 	color: #000000;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
+	.ipad {
+		display: none;
+	}
+	#wrapper {
+		width: 968px;
+		margin: auto;
+	}
 	nav li.dropdown:hover > .dropdown-menu {
 	    display: block;
 	}
@@ -344,10 +344,25 @@ input:focus {
 	.navbar .navbar-collapse {
         text-align: center;
     }
+    #welcome h1 {
+		font-size: 105px;
+	}
     .form-horizontal .control-label {
     	text-align: left;
     }
     #choose_story_modal {
     	width: 70%;
     }
+}
+@media (max-width: 768px) and (min-width: 700px) {
+	#wrapper {
+		width: 650px;
+		margin: auto;
+	}
+	#welcome h1 {
+		font-size: 90px;
+	}
+	.md-modal {
+		width: 600px;
+	}
 }

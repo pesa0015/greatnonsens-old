@@ -1,4 +1,5 @@
 /mysql/connect.php
 /test
-/js/firebase_init.js
+/lib/Pusher/config.php
+/js/pusher_config.js
 .htaccess

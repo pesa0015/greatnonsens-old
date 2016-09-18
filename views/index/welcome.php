@@ -24,13 +24,13 @@
   <form action="" method="post" id="create-story">
     <p>Inledningsord:</p>
     <div id="char-left" style="padding-top:15px;"><span>50</span> tecken kvar</div>
-    <textarea id="opening-words" class="form-control" rows="3" maxlength="50">Det var en gång</textarea>
+    <textarea id="opening-words" class="form-control" rows="3" maxlength="50">Det var en gång..</textarea>
     <p>Vad ska berättelsen heta?</p>
-    <input type="text" id="title" class="form-control" value="Berg ">
+    <input type="text" id="title" class="form-control">
     <p>Rundor:</p>
-    <input type="text" id="rounds" value="3" class="form-control" style="width:50px;">
+    <input type="text" id="rounds" value="5" class="form-control" style="width:50px;">
     <p>Max antal författare:</p>
-    <input type="text" id="num-of-writers" value="3" class="form-control" style="width:50px;">
+    <input type="text" id="num-of-writers" value="10" class="form-control" style="width:50px;">
     <p>Öppen för alla:</p>
     <div class="radio">
       <label>
@@ -42,7 +42,7 @@
         <input type="radio" name="public" value="0"><span>Nej, endast via länk-inbjudning</span>
       </label>
     </div>
-    <input type="submit" value="Skapa" class="btn btn-primary">
+    <input type="submit" value="Skapa" class="btn btn-success">
   </form>
 </div>
 <div id="start">

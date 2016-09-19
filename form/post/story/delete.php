@@ -20,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			foreach($writers as $writer) {
 				array_push($clients, 'private-' . $writer['user_id']);
 			}
-			$pusher->trigger($clients, 'news', json_encode(array('type' => 'story_deleted', 'story_id' => $story, 'num_of_writers' => $num_of_writers, 'writer' => $_SESSION['me'])));
-			$pusher->trigger('main_channel', 'story_deleted', json_encode(array('story_id' => $story, 'num_of_writers' => $num_of_writers)));
+			$pusher->trigger($clients, 'news', json_encode(array('type' => 'story_deleted', 'story_id' => $story, 'writer' => $_SESSION['me'])));
+			$pusher->trigger('main_channel', 'story_deleted', json_encode(array('story_id' => $story)));
 			echo json_encode(array('success' => true, 'writers' => $writers));
 			die;
 		}

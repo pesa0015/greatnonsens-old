@@ -273,11 +273,12 @@ function storyHasBegan(story) {
 	else checkNewsFeed('story_began', false);
 }
 function storyDeleted(story) {
-	if (story == getStoryId()) {
+	var theStory = JSON.parse(story);
+	if (theStory.story_id == getStoryId()) {
 		document.getElementById('content').innerHTML = '<h1>Storyn har raderats.</h1>';
-		checkNewsFeed('story_deleted', true);
+		// checkNewsFeed('story_deleted', true);
 	}
-	else checkNewsFeed('story_deleted', false);
+	// else checkNewsFeed('story_deleted', false);
 }
 var channel = pusher.subscribe('private-' + me);
 channel.bind('news', function(data) {
@@ -298,6 +299,7 @@ channel.bind('news', function(data) {
 			storyFinished(value);
 			break;
 		case 'story_deleted':
+			storyDeleted(data);
 			break;
 	}
 });
